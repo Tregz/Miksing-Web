@@ -1,0 +1,77 @@
+@charset "UTF-8";
+/* CSS Document */
+
+*,
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+	
+a {
+	text-decoration: none;
+}
+
+body {
+	background:#fed;
+	font-family: Arial, Segoe, "Segoe UI", Verdana, "sans-serif";
+	margin: 0;
+	font-size:16px;
+	line-height: 1.33;
+}
+
+iframe, .player {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+	visibility: hidden;
+    width: 100%;
+	z-index:1;
+}
+
+img {width:100%;}
+
+img.icon {
+	height:24px;
+	width:auto;
+}
+
+h1 {
+	color: #a06;
+	font-family: Constantia, "Lucida Bright", Georgia, "serif";
+	text-transform:uppercase;
+	padding-bottom:35px;
+}
+
+h2 {font-family: Consolas, "Andale Mono", Monaco, "monospace";}
+
+h3 {
+	color:#a06;
+	margin-bottom:0;
+}
+
+h4 {
+	margin:0;
+}
+
+li {
+	display:inline-flex;
+	font-size: smaller;
+  	font-weight: bold;
+	letter-spacing: 0.5px;
+	list-style-type: none;
+}
+
+section {
+	display:none;
+	position:relative;
+}
+
+ul {padding-left:0px;}
+
+@media only screen and (max-width: 35em) {
+	.main {
+	}
+}
