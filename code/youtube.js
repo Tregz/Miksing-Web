@@ -28,7 +28,7 @@ function onTestingStateChange(yt) { "use strict";
 	if (yt.data===YT.PlayerState.BUFFERING) { mixing(videoId);
 		players[testing].stopVideo(); }
 	else if (yt.data===YT.PlayerState.UNSTARTED) { 
-		if (unstart) { playNext(); }
+		if (unstart) { playNext(); } // when video does not start, it will return to unstart state
 		else if (!loading) { unstart=true; } } 
 }
 
