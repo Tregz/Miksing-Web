@@ -1,2 +1,0 @@
-# Miksing-Web
-Website version
