@@ -1,6 +1,9 @@
 // JavaScript Document
 	
 // Initialize Firebase
+
+var firebase;
+
 var config = {
     apiKey: "AIzaSyBjNTscuOcDgc3iMVlQ519mS6yC-2V4px0",
     authDomain: "miksing-3bb36.firebaseapp.com",
@@ -10,10 +13,11 @@ var config = {
     messagingSenderId: "616604964223"
 };
 firebase.initializeApp(config);	
+
 var courriel;
 var usersRef = firebase.database().ref('users');
 	
-window.onload = function() {
+window.onload = function() { "use strict";
 	document.getElementById('sign-in')
 		.addEventListener('click', signIn, false);
     document.getElementById('sign-up')
@@ -25,7 +29,7 @@ window.onload = function() {
 };
 	
 // Sign-in button press
-function signIn() {
+function signIn() { "use strict";
 	if (firebase.auth().currentUser) { // [START signout]
         firebase.auth().signOut(); } // [END signout]
     else { var email = document.getElementById('courriel').value;
@@ -59,7 +63,7 @@ function signIn() {
 }
 	
 // Sign-up button press
-function signUp() {
+function signUp() { "use strict";
 	//document.getElementById('username').style.display='block';
 	document.getElementById('validate').style.display='inline';
 	document.getElementById('canceler').style.display='inline';
@@ -67,7 +71,7 @@ function signUp() {
 	document.getElementById('sign-in').style.display='none';
 }
 
-function signValidate() {
+function signValidate() { "use strict";
 	var email = document.getElementById('courriel').value;
     var password = document.getElementById('password').value;
     if (email.length < 4) { alert('Please enter an email address.');
@@ -83,14 +87,14 @@ function signValidate() {
         var errorCode = error.code;
         var errorMessage = error.message;
         // [START_EXCLUDE]
-        if (errorCode == 'auth/weak-password') {
+        if (errorCode === 'auth/weak-password') {
           alert('The password is too weak.'); }
 		else { alert(errorMessage); }
         console.log(error); // [END_EXCLUDE]
 	}); // [END createwithemail]
 }
 
-function signCancel() {
+function signCancel() { "use strict";
 	document.getElementById('validate').style.display='none';
 	document.getElementById('canceler').style.display='none';
 	document.getElementById('sign-up').style.display='inline';
@@ -98,12 +102,12 @@ function signCancel() {
 }
 
 // Database user-infos
-function userId() {
+function userId() { "use strict";
 	//var email = firebase.auth().currentUser.email;
 	var ref = firebase.database().ref('users');
 	ref.once('value').then(function(snap) {
 		snap.forEach(function(snapshot) {
-		if (snapshot.child('mail').val() == courriel){
+		if (snapshot.child('mail').val() === courriel){
 		document.getElementById('name').textContent=snapshot.key;
 	}})});
 }
