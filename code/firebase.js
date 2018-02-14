@@ -15,17 +15,14 @@ var config = {
 firebase.initializeApp(config);	
 
 var courriel;
+
 var usersRef = firebase.database().ref('users');
 	
 window.onload = function() { "use strict";
-	document.getElementById('sign-in')
-		.addEventListener('click', signIn, false);
-    document.getElementById('sign-up')
-		.addEventListener('click', signUp, false);
-	document.getElementById('validate')
-		.addEventListener('click', signValidate, false);
-    document.getElementById('canceler')
-		.addEventListener('click', signCancel, false);
+	document.getElementById('sign-in').addEventListener('click', signIn, false);
+    document.getElementById('sign-up').addEventListener('click', signUp, false);
+	document.getElementById('validate').addEventListener('click', signValidate, false);
+    document.getElementById('canceler').addEventListener('click', signCancel, false);
 };
 	
 // Sign-in button press
