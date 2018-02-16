@@ -16,6 +16,7 @@ var uRef;
 
 var btSignIn, btSignUp, btCancel;
 var txCourriel, txPassword;
+var unid;
 
 function auth() { "use strict";
 	firebase.initializeApp(config);	// jshint ignore:line
@@ -23,7 +24,7 @@ function auth() { "use strict";
 	// [START authstatelistener]
 	firebase.auth().onAuthStateChanged(function(user) { // jshint ignore:line
 		if (user) { online(); // User is signed in.
-        	var unid = user.uid; // unique numeric id
+        	unid = user.uid; // unique numeric id
 			// optional: user.email;
 		    // optional: user.displayName;
         	// optional: user.emailVerified;
@@ -31,14 +32,9 @@ function auth() { "use strict";
         	// optional: user.isAnonymous;
         	// optional: user.providerData;
 			uRef.once('value', function(snapshot) {
-  			if (snapshot.hasChild(unid)) {
-    		alert('exists');
-  			}
-			});
-			//uRef.child(unid).child("wire").set(true);)
+  				if (!snapshot.hasChild(unid)) { // New user
+					uRef.child(unid).child("mail").set(user.email); } });
 			uRef.child(unid).child("wire").set(true);
-				   
-				   
 			uRef.child(unid).once('value').then(function(snapshot) {
 				var username = (snapshot.val().name) || 'Anonymous';
 				document.getElementById("username").textContent=username ; });
@@ -66,7 +62,7 @@ function load(src) { "use strict";
 	var js = document.createElement('script');
 	js.src = src;
 	js.onload = js.onreadystatechange = function() {
-		if ( !inserted && (!this.readyState || this.readyState === 'complete') ) { inserted = true;
+		if (!inserted && (!this.readyState || this.readyState === 'complete')) { inserted = true;
       		if (src==='https://www.gstatic.com/firebasejs/4.9.1/firebase-app.js') { firebaseReady = true; }
 			else if (src==='https://www.gstatic.com/firebasejs/4.9.1/firebase-auth.js') { authReady = true; }
 			else if (src==='https://www.gstatic.com/firebasejs/4.9.1/firebase-database.js') { dataReady = true; }
@@ -77,7 +73,9 @@ function load(src) { "use strict";
 
 function signIn() { "use strict"; // Sign in with email and pass. 
 				   //alert('sign');
-	if (firebase.auth().currentUser) { firebase.auth().signOut(); } // jshint ignore:line
+	if (firebase.auth().currentUser) { // jshint ignore:line
+		uRef.child(unid).child("wire").set(false);
+		firebase.auth().signOut(); } // jshint ignore:line
     else { var email = txCourriel.value;
 		var password = txPassword.value;
     	if (verify(email,password)) {
