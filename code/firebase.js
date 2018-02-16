@@ -30,7 +30,15 @@ function auth() { "use strict";
         	// optional: user.photoURL;
         	// optional: user.isAnonymous;
         	// optional: user.providerData;
+			uRef.once('value', function(snapshot) {
+  			if (snapshot.hasChild(unid)) {
+    		alert('exists');
+  			}
+			});
+			//uRef.child(unid).child("wire").set(true);)
 			uRef.child(unid).child("wire").set(true);
+				   
+				   
 			uRef.child(unid).once('value').then(function(snapshot) {
 				var username = (snapshot.val().name) || 'Anonymous';
 				document.getElementById("username").textContent=username ; });
