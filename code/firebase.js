@@ -72,7 +72,6 @@ function load(src) { "use strict";
 }
 
 function signIn() { "use strict"; // Sign in with email and pass. 
-				   //alert('sign');
 	if (firebase.auth().currentUser) { // jshint ignore:line
 		uRef.child(unid).child("wire").set(false);
 		firebase.auth().signOut(); } // jshint ignore:line
@@ -111,7 +110,7 @@ function verify(courriel, password) { "use strict";
 }
 
 function offline() { "use strict"; 
-	btSignIn.textContent="Sign In";
+	btSignIn.textContent="Continue";
 	btSignUp.style.display='inline';
 	document.getElementById("user").checked = false;
 }

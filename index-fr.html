@@ -19,12 +19,21 @@
 <meta property="og:image:secure_url" content="https://www.tregz.com/miksing/draw/sm_logo.jpg" />
 <meta property="og:image:width" content="960" />
 <meta property="og:image:height" content="960" />
-<link rel="stylesheet" href="body/layout.css">
+<link rel="stylesheet" href="body/layout.css"> <!-- ?v=1.04-->
 </head>
 <body>
 <nav><ul class="sideline">
 	<a id="here" href="#"><img src="draw/ic_logo.svg" alt="Logo Miksing" id="logo"><li class="left"><span>Miksing</span></li></a>
-	<a href="http://github.com/Tregz/Miksing"><li class="menu"><span>iOS</span></li></a>
+	<li class="menu"><input type="checkbox" id="sign">
+	<label for="sign"><img src="draw/ic_key.svg" class="icon" alt="Login Icon"><span>Connexion</span></label>
+		<div class="down">
+			<input id="courriel" type="text" placeholder="Email"/>
+    		<input id="password" type="password" placeholder="Password"/>
+    		<button id="signIn" name="signIn">Continue</button>
+    		<button id="signUp" name="signUp">Inscription</button>
+    		<button id="cancel" name="cancel">X</button>
+		</div></li><!--
+	<a href="http://github.com/Tregz/Miksing"><li class="menu"><span>iOS</span></li></a>-->
 	<a href="http://github.com/Tregz/Miksing-Android"><li class="menu"><span>Android</span></li></a>
 	<input type="checkbox" id="lang" checked><label for="lang"><img src="draw/ic_language.svg" alt="Icone de langue" class="icon"></label>
 	<li class="side"><a href="index.html"><span>English</span></a></li>
@@ -34,7 +43,11 @@
 <input id="tab2" type="radio" name="tabs">
 <input id="tab3" type="radio" name="tabs">
 <input id="tab4" type="radio" name="tabs">
-<header class="sideline"><div id="tv">
+<header class="sideline">
+	<input type="checkbox" class="expand" id="user">
+	<div id="profile"><p id="username">User</p></div>
+	
+	<div id="tv">
 	<div id="player_0"></div>
 	<div id="player_1"></div>
 	<div id="player_2"></div>
@@ -63,8 +76,13 @@
 		</table></form>
 	</article>
 </header>
-	<article class="sideline"><h4>Mises à jour 2017</h4><p>09-05. Transition automatique quand un vidéo achève.</p>
-	<p>08-29. Transition audio d'atténuation, quand un vidéo est prêt, avec changement du visuel à mi-chemin.</p></article>
+	<article class="sideline">
+		<h4>Mises à jour  2018</h4>
+		<p>02-16. Authentification Firebase pour s'inscrire.</p>
+		<p>02-15. Mix automatique YouTube quand un vidéo achève.</p>
+		<h4>Mises à jour  2017</h4>
+		<p>09-06. Authentification Firebase pour les utilisateurs inscrit.</p>
+		<p>08-29. Mix de lecteurs YouTube : atténuation audio; changement du visuel à mi-chemin.</p></article>
 <section id="content1" class="sideline">
 	<article><aside class="hashtags">#tropical #newwave #2016</aside>
 		<a onClick="mixing('dIK81cpOXYg')">
@@ -159,7 +177,7 @@
 </section>
 </div>
 <footer>site Internet par <a href="mailto:jerome@tregz.com">jerome</a>@<a href="http://www.tregz.com">tregz.com</a> &copy;2017</footer>
-<script src="code/youtube.js"></script>
-<script src="code/firebase.js"></script>
+<script src="code/firebase.js"></script> <!-- ?v=1.04-->
+<script src="code/youtube.js"></script> <!-- ?v=1.01-->
 </body>
 </html>
