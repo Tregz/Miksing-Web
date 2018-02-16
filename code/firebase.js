@@ -19,25 +19,22 @@ var txCourriel, txPassword;
 
 function auth() { "use strict";
 	firebase.initializeApp(config);	// jshint ignore:line
-				 
-				 
 	uRef = firebase.database().ref('users'); // jshint ignore:line 
-			 
 	// [START authstatelistener]
 	firebase.auth().onAuthStateChanged(function(user) { // jshint ignore:line
 		if (user) { online(); // User is signed in.
-			var name = user.displayName;
-        	var mail = user.email;
         	var unid = user.uid; // unique numeric id
+			// optional: user.email;
+		    // optional: user.displayName;
         	// optional: user.emailVerified;
         	// optional: user.photoURL;
         	// optional: user.isAnonymous;
         	// optional: user.providerData;
-			
-			uRef.child(unid).set({name:name,mail:mail});
-		
-		}
-		else { offline(); } // User is signed out
+			uRef.child(unid).child("wire").set(true);
+			uRef.child(unid).once('value').then(function(snapshot) {
+				var username = (snapshot.val().name) || 'Anonymous';
+				document.getElementById("username").textContent=username ; });
+		} else { offline(); } // User is signed out
 	}); // [END authstatelistener]
 }
 
@@ -110,31 +107,15 @@ function verify(courriel, password) { "use strict";
 function offline() { "use strict"; 
 	btSignIn.textContent="Sign In";
 	btSignUp.style.display='inline';
+	document.getElementById("user").checked = false;
 }
 
 function online() { "use strict"; 
 	btSignIn.textContent="Sign out";
 	btSignUp.style.display='none';
+	document.getElementById("user").checked = true;
 }
 
 function cancel() { "use strict"; 
 	document.getElementById("sign").checked = false;
 }
-
-
-// Database user-infos
-/* function userId(courriel) { "use strict";
-	//var email = firebase.auth().currentUser.email;
-	var ref = firebase.database().ref('users');
-	ref.once('value').then(function(snap) {
-		snap.forEach(function(snapshot) {
-		if (snapshot.child('mail').val()===courriel){
-		document.getElementById('name').textContent=snapshot.key; } });
-	});
-}
-
-
-/* Validate username
-	var ref = firebase.database().ref('users');
-	var username = document.getElementById('username').value;
-	if (ref.child(username).exists())alert('WTF!');*/

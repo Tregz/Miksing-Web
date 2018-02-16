@@ -183,6 +183,24 @@ header article {
 	transition: all 333ms ease-out;
 }
 
+header div#profile {
+	height:200px;
+	padding-top: 35px;
+	padding-left: 12px;
+	margin-bottom:-45px;
+	background:#fc0;
+	-webkit-transition: all 333ms ease-out;
+	-moz-transition: all 333ms ease-out;
+	-o-transition: all 333ms ease-out;
+	-ms-transition: all 333ms ease-out;
+	transition: all 333ms ease-out;
+}
+
+header input#user:not(:checked) ~ div#profile {
+	height: 0px;
+	margin-bottom: -35px;
+}
+
 header input#info:not(:checked) ~ article input#contact:checked ~ form {
 	height:310px;
 	opacity:1;
