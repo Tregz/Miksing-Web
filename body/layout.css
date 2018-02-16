@@ -342,9 +342,13 @@ nav li {
 	padding-bottom:5px;
 }
 
+nav li input { width:100%;
+}
+
 nav li div.down {
 	position:absolute;
 	top:32px;
+	width:200px;
 	background:#a06;
 	padding:7px;
 	margin-left:-8px;

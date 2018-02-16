@@ -1,8 +1,9 @@
 /** JavaScript Document
+ * Initialize YouTube API
  * Created by Jerome Robbins on 18-02-12.
- */ /*jshint unused:false*/
+ */ 
 
-var /* boolea */ loading, skipped, unstart;
+var /* boolea */ loading, unstart;
 var /* intrvl */ cntDown, time_In, timeOut;
 var /* number */ fade_In, fadeOut, fadeVal=10, indexAt=0, playing=1, present=0, stopped=2, testing=0, vLength=0;
 var /* string */ videoId;
@@ -16,24 +17,28 @@ var tag = document.createElement('script');
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // Insert the iFrame Players
-function onYouTubeIframeAPIReady() { "use strict";
-    var player_nul = new YT.Player('player_0', { events: { 'onReady': function(e){e.target.mute();}, 'onStateChange': onTestingStateChange } });
-    var player_one = new YT.Player('player_1', { events: { 'onStateChange': onPlayerStateChange } });
-    var player_two = new YT.Player('player_2', { events: { 'onStateChange': onPlayerStateChange } });
+function onYouTubeIframeAPIReady() { "use strict"; // jshint ignore:line
+    var player_nul = new YT.Player('player_0', { events: { // jshint ignore:line
+		'onReady': function(e){e.target.mute();}, 
+		'onStateChange': onTestingStateChange } });
+    var player_one = new YT.Player('player_1', { events: { // jshint ignore:line
+		'onStateChange': onPlayerStateChange } });
+    var player_two = new YT.Player('player_2', { events: { // jshint ignore:line
+		'onStateChange': onPlayerStateChange } });
 	players = [player_nul,player_one,player_two];								
 	iframes = document.getElementsByTagName('iframe');
 }
 
 function onTestingStateChange(yt) { "use strict";
-	if (yt.data===YT.PlayerState.BUFFERING) { mixing(videoId);
+	if (yt.data===YT.PlayerState.BUFFERING) { mixing(videoId); // jshint ignore:line
 		players[testing].stopVideo(); }
-	else if (yt.data===YT.PlayerState.UNSTARTED) { 
+	else if (yt.data===YT.PlayerState.UNSTARTED) { // jshint ignore:line
 		if (unstart) { playNext(); } // when video does not start, it will return to unstart state
 		else if (!loading) { unstart=true; } } 
 }
 
 function onPlayerStateChange(yt) { "use strict";
-	if (loading && yt.data===YT.PlayerState.PLAYING) {
+	if (loading && yt.data===YT.PlayerState.PLAYING) { // jshint ignore:line
 		fade_In=0;
 		fadeOut=0;
 		clearInterval(time_In);
