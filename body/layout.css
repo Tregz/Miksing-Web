@@ -102,7 +102,7 @@ footer a {
 	font-weight:bold;
 }
 
-form {
+form#contact_form {
 	height:0;
 	opacity:0;
 	-webkit-transition: all 333ms ease-out;
@@ -112,6 +112,12 @@ form {
 	transition: all 333ms ease-out;
 	visibility: collapse;
 	width:100%;
+}
+
+form button {
+	width:100%;
+	height: 30px;
+	font-size:16px;
 }
 
 form h2 {
@@ -184,9 +190,10 @@ header article {
 }
 
 header div#profile {
-	height:200px;
-	padding-top: 35px;
+	height:220px;
+	padding-top: 50px;
 	padding-left: 12px;
+	padding-right: 12px;
 	margin-bottom:-45px;
 	background:#fc0;
 	-webkit-transition: all 333ms ease-out;
@@ -198,7 +205,7 @@ header div#profile {
 
 header input#user:not(:checked) ~ div#profile {
 	height: 0px;
-	margin-bottom: -35px;
+	margin-bottom: -v50px;
 }
 
 header input#info:not(:checked) ~ article input#contact:checked ~ form {
@@ -309,8 +316,6 @@ img.icon {
 	height:24px;
 	width:auto;
 }
-
-input#username, button#validate, button#canceler{display:none;}
 
 input[type="radio"], input[type="checkbox"] {display:none;}
 

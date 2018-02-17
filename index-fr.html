@@ -19,7 +19,7 @@
 <meta property="og:image:secure_url" content="https://www.tregz.com/miksing/draw/sm_logo.jpg" />
 <meta property="og:image:width" content="960" />
 <meta property="og:image:height" content="960" />
-<link rel="stylesheet" href="body/layout.css"> <!-- ?v=1.04-->
+<link rel="stylesheet" href="body/layout.css?v=1.51"> <!-- ?v=1.04-->
 </head>
 <body>
 <nav><ul class="sideline">
@@ -45,8 +45,13 @@
 <input id="tab4" type="radio" name="tabs">
 <header class="sideline">
 	<input type="checkbox" class="expand" id="user">
-	<div id="profile"><p id="username">User</p></div>
-	
+	<div id="profile"><form><table>
+			<tr><td><input id="username" type="text" name="name" maxlength="50" placeholder="Nom" ></td></tr>
+			<tr><td><input id="location" type="text" name="mail" maxlength="80" placeholder="Lieu"></td></tr>
+			<tr><td><input id="avatar" type="text" name="mail" maxlength="80" placeholder="Apparence"></td></tr>
+			<tr><td><button id="save" name="save">Save</button>
+				</td></tr>
+		</table></form></div>
 	<div id="tv">
 	<div id="player_0"></div>
 	<div id="player_1"></div>
@@ -177,7 +182,7 @@
 </section>
 </div>
 <footer>site Internet par <a href="mailto:jerome@tregz.com">jerome</a>@<a href="http://www.tregz.com">tregz.com</a> &copy;2017</footer>
-<script src="code/firebase.js"></script> <!-- ?v=1.04-->
-<script src="code/youtube.js"></script> <!-- ?v=1.01-->
+<script src="code/firebase.js?v=1.53"></script> <!-- ?v=1.04-->
+<script src="code/youtube.js?v=1.01"></script> <!-- ?v=1.01-->
 </body>
 </html>
