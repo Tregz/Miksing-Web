@@ -6,7 +6,7 @@
 init();
 
 var btSignIn, btSignUp; // Buttons
-var txCourriel, txPassword; // Text inputs
+var txCourriel, txDrawable, txLocation, txPassword, txUsername; // Text inputs
 
 // Firebase
 var config = {
@@ -47,11 +47,11 @@ function auth() { "use strict";
 			uRef.child(unid).once('value').then(function(snapshot) {
 				if (snapshot.hasChild("name")) {
 					var username = (snapshot.val().name) || 'Anonymous';
-					document.getElementById("username").value=username; }
+					txUsername.value=username; }
 				if (snapshot.hasChild("area")) {
-					document.getElementById("location").value=snapshot.val().area; }
+					txLocation.value=snapshot.val().area; }
 				if (snapshot.hasChild("face")) {
-					document.getElementById("avatar").value=snapshot.val().face; } });
+					txDrawable.value=snapshot.val().face; } });
 		} else { btSignIn.textContent="Continue";
 			btSignUp.style.display='inline';
 			document.getElementById("user").checked = false; } // User is signed out
@@ -102,11 +102,14 @@ function init() { "use strict";
 	document.getElementById('cancel').addEventListener('click', function() {					 
 		document.getElementById("sign").checked = false; });
 	document.getElementById('save').addEventListener('click', function() {
-		uRef.child(unid).child("area").set(document.getElementById("location").value);
-		uRef.child(unid).child("face").set(document.getElementById("avatar").value);
-		uRef.child(unid).child("name").set(document.getElementById("username").value); });
+		uRef.child(unid).child("area").set(txLocation.value);
+		uRef.child(unid).child("face").set(txDrawable.value);
+		uRef.child(unid).child("name").set(txUsername.value); });
 	txCourriel = document.getElementById('courriel');
+	txDrawable = document.getElementById("drawable");
+	txLocation = document.getElementById("location");
 	txPassword = document.getElementById('password');
+	txUsername = document.getElementById("username");
 	
 	// Initialize Firebase	 
 	firebaseApp = 'https://www.gstatic.com/firebasejs/4.9.1/firebase-app.js';
