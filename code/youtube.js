@@ -1,7 +1,9 @@
 /** JavaScript Document
  * Initialize YouTube API
  * Created by Jerome Robbins on 18-02-12.
- */ 
+ */
+
+init();
 
 var /* boolea */ loading, unstart;
 var /* intrvl */ cntDown, time_In, timeOut;
@@ -11,10 +13,12 @@ var /* vArray */ iframes;
 var /* vArray */ players;
 var /* vArray */ playlst=['dIK81cpOXYg','5-q3meXJ6W4','V7t1SToZ-i8','UHElD61QBKY','WkyNf6GBI6M','c8cDM2PN_kY','JG9W2TwDtOM','_fPaBhR21Vw','YB_z0Z3msAQ','AldrdUYHFK4','h1gcPNMC0J4','scMATf60KWI'];
 
-var tag = document.createElement('script');
-	tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+function init() { "use strict";
+	var js = document.createElement('script');
+	js.src = "https://www.youtube.com/iframe_api";
+    var script = document.getElementsByTagName('script')[0];
+    script.parentNode.insertBefore(js, script);
+}
 
 // Insert the iFrame Players
 function onYouTubeIframeAPIReady() { "use strict"; // jshint ignore:line

@@ -8,6 +8,8 @@
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
+
+primaryColor { }
 	
 a {
 	text-decoration: none;
@@ -190,12 +192,11 @@ header article {
 }
 
 header div#profile {
-	height:220px;
-	padding-top: 50px;
-	padding-left: 12px;
-	padding-right: 12px;
-	margin-bottom:-45px;
+	height:180px;
+	margin-top:16px;
+	margin-bottom:-16px;
 	background:#fc0;
+	position: relative;
 	-webkit-transition: all 333ms ease-out;
 	-moz-transition: all 333ms ease-out;
 	-o-transition: all 333ms ease-out;
@@ -203,9 +204,58 @@ header div#profile {
 	transition: all 333ms ease-out;
 }
 
+header div#map {
+	position: absolute;
+	width:100%;
+	height:100%;
+}
+
+header div#profile form {
+	width:45%;
+	padding-left: 12px;
+	float: left;
+	
+}
+
+header div#profile div#usercard {
+	display: inline-block;
+	position: relative;
+	width:100%;
+}
+
+header div#profile object {
+	position: absolute;
+	right:0;
+}
+
+header div#profile object#avatar {
+	width:auto;
+	height:150px;
+	margin-right: 12px;
+}
+
+header div#profile img#switch {
+	position: absolute;
+	right:0;
+	bottom:0;
+	width:auto;
+	height:33px;
+	margin-right: 18px;
+	margin-bottom: -4px;
+}
+
+header div#profile form input {
+	background: linear-gradient(to right, #fc0 33%, transparent);
+	color:#a06;
+}
+
 header input#user:not(:checked) ~ div#profile {
 	height: 0px;
-	margin-bottom: -v50px;
+	margin-bottom: -50px;
+}
+
+header input#user:not(:checked) ~ div#profile {
+	opacity: 0;
 }
 
 header input#info:not(:checked) ~ article input#contact:checked ~ form {

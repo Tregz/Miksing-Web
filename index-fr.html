@@ -19,7 +19,7 @@
 <meta property="og:image:secure_url" content="https://www.tregz.com/miksing/draw/sm_logo.jpg" />
 <meta property="og:image:width" content="960" />
 <meta property="og:image:height" content="960" />
-<link rel="stylesheet" href="body/layout.css"> <!-- ?v=1.51-->
+<link rel="stylesheet" href="body/layout.css?v=1.07"> <!-- ?v=1.07-->
 </head>
 <body>
 <nav><ul class="sideline">
@@ -44,14 +44,6 @@
 <input id="tab3" type="radio" name="tabs">
 <input id="tab4" type="radio" name="tabs">
 <header class="sideline">
-	<input type="checkbox" class="expand" id="user">
-	<div id="profile"><form><table>
-			<tr><td><input id="username" type="text" name="name" maxlength="50" placeholder="Nom" ></td></tr>
-			<tr><td><input id="location" type="text" name="mail" maxlength="80" placeholder="Lieu"></td></tr>
-			<tr><td><input id="drawable" type="text" name="mail" maxlength="80" placeholder="Apparence"></td></tr>
-			<tr><td><button id="save" name="save">Save</button>
-				</td></tr>
-		</table></form></div>
 	<div id="tv">
 	<div id="player_0"></div>
 	<div id="player_1"></div>
@@ -60,6 +52,18 @@
 		<h2>Une application simple pour le mixage multimedia</h2>
 		<h1>Projet universitaire</h1>
 	</div></div>
+	<input type="checkbox" class="expand" id="user">
+	<div id="profile"><div id="map"></div>
+		
+		<div id="usercard"><form><table>
+			<tr><td><input id="username" type="text" name="name" maxlength="50" placeholder="Nom" ></td></tr>
+			<tr><td><input id="location" type="text" name="mail" maxlength="80" placeholder="Lieu"></td></tr>
+			<tr><td><input id="drawable" type="text" name="mail" maxlength="80" placeholder="Apparence"></td></tr>
+			<tr><td><button id="save" name="save">Save</button>
+				</td></tr>
+		</table></form>
+			<object type="image/svg+xml" data="draw/av_face_9.svg" id="avatar">Avatar</object>
+			<img src="draw/ic_arrow_end.svg" alt="Arrow Button" id="switch"></div></div>
 	<input type="checkbox" class="expand" id="info" checked><ul>
 	<label for="tab1" class="content1"><li class="menu">Apero</li></label>
 	<label for="tab2" class="content2"><li class="menu">Bistro</li></label>
@@ -83,11 +87,11 @@
 </header>
 	<article class="sideline">
 		<h4>Mises à jour  2018</h4>
-		<p>02-16. Authentification Firebase pour s'inscrire.</p>
-		<p>02-15. Mix automatique YouTube quand un vidéo achève.</p>
+		<p>02-20. Base de données Firebase, multiplateforme, partagée sur l'app Android [beta].</p>
+		<p>02-15. Mix en continu automatique pour les playlists YouTube.</p>
 		<h4>Mises à jour  2017</h4>
-		<p>09-06. Authentification Firebase pour les utilisateurs inscrit.</p>
-		<p>08-29. Mix de lecteurs YouTube : atténuation audio; changement du visuel à mi-chemin.</p></article>
+		<p>09-06. Authentification Firebase pour les utilisateurs inscrits et les nouveaux.</p>
+		<p>08-29. Transition YouTube : atténuation audio; changement visuel à mi-chemin.</p></article>
 <section id="content1" class="sideline">
 	<article><aside class="hashtags">#tropical #newwave #2016</aside>
 		<a onClick="mixing('dIK81cpOXYg')">
@@ -112,13 +116,6 @@
 	</article>
 </section>
 <section id="content2" class="sideline">
-	<article><aside class="hashtags">#folk #mashup #reggae #2015</aside>
-		<a onClick="mixing('UHElD61QBKY')">
-		<img src="http://img.youtube.com/vi/UHElD61QBKY/0.jpg" alt="YouTube Thumbnail" class="small">
-		<h3>The Only One Moon Rising</h3>
-		<h4>CCR vs Sam Smith vs Bob Marley</h4>
-		<p>par DRA'Man; édit vidéo par Tremenz</p></a>
-	</article>
 	<article><aside class="hashtags">#ballad #mashup #2015</aside>
 		<a onClick="mixing('WkyNf6GBI6M')">
 		<img src="http://img.youtube.com/vi/WkyNf6GBI6M/0.jpg" alt="YouTube Thumbnail" class="small">
@@ -126,22 +123,8 @@
 		<h4>Capital Cities</h4>
 		<p>par Dylan Vasey; édit vidéo par Tremenz</p></a>
 	</article>
-	<article><aside class="hashtags">#tropical #rock #2015</aside>
-		<a onClick="mixing('c8cDM2PN_kY')">
-		<img src="http://img.youtube.com/vi/c8cDM2PN_kY/0.jpg" alt="YouTube Thumbnail" class="small">
-		<h3>I Bet My Life</h3>
-		<h4>Imagine Dragons</h4>
-		<p>par Alex Adair; édit vidéo par Tremenz</p></a>
-	</article>
 </section>
 <section id="content3" class="sideline">
-	<article><aside class="hashtags">#tropical #hiphop #2016</aside>
-		<a onClick="mixing('JG9W2TwDtOM')">
-		<img src="http://img.youtube.com/vi/JG9W2TwDtOM/0.jpg" alt="YouTube Thumbnail" class="small">
-		<h3>In Da Club</h3>
-		<h4>50 Cent</h4>
-		<p>par Naxsy &amp; Rolf Dyman; édit vidéo par Tremenz</p></a>
-	</article>
 	<article><aside class="hashtags">#pop #2015</aside>
 		<a onClick="mixing('_fPaBhR21Vw')">
 		<img src="http://img.youtube.com/vi/_fPaBhR21Vw/0.jpg" alt="YouTube Thumbnail" class="small">
@@ -158,20 +141,6 @@
 	</article>
 </section>
 <section id="content4" class="sideline">
-	<article><aside class="hashtags">#house #2016</aside>
-	<a onClick="mixing('AldrdUYHFK4')">
-		<img src="http://img.youtube.com/vi/AldrdUYHFK4/0.jpg" alt="Miniature YouTube" class="small">
-		<h3>Oye Como Va</h3>
-		<h4>Santana vs Dusty Springfield</h4>
-		<p>mix par DJ Palermo; édit vidéo par Tremenz</p></a>
-	</article>
-	<article><aside class="hashtags">#funk #house #soul #2016</aside>
-		<a onClick="mixing('h1gcPNMC0J4')">
-		<img src="http://img.youtube.com/vi/h1gcPNMC0J4/0.jpg" alt="YouTube Thumbnail" class="small">
-		<h3>All I Do</h3>
-		<h4>Stevie Wonder</h4>
-		<p>par Audio Jacker; édit vidéo par Tremenz</p></a>
-	</article>
 	<article><aside class="hashtags">#ballad #house #2015</aside>
 		<a onClick="mixing('scMATf60KWI')">
 		<img src="http://img.youtube.com/vi/scMATf60KWI/0.jpg" alt="YouTube Thumbnail" class="small">
@@ -182,7 +151,8 @@
 </section>
 </div>
 <footer>site Internet par <a href="mailto:jerome@tregz.com">jerome</a>@<a href="http://www.tregz.com">tregz.com</a> &copy;2017</footer>
-<script src="code/firebase.js"></script> <!-- ?v=1.53-->
-<script src="code/youtube.js"></script> <!-- ?v=1.01-->
+<script src="code/firebase.js?v=1.08"></script> <!-- ?v=1.08-->
+<script src="code/maps.js?v=1.05"></script> <!-- ?v=1.05-->
+<script src="code/youtube.js?v=1.01"></script> <!-- ?v=1.01-->
 </body>
 </html>
