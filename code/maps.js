@@ -3,7 +3,11 @@
  * Created by Jerome Robbins on 18-02-19.
  */ /*jshint esversion: 6 */
 
-init();
+var js = document.createElement('script');
+var key = "AIzaSyBjNTscuOcDgc3iMVlQ519mS6yC-2V4px0";
+js.src = "https://maps.googleapis.com/maps/api/js?key="+key+"&callback=area";
+var script = document.getElementsByTagName('script')[0];
+script.parentNode.insertBefore(js, script);
 
 function area() { "use strict"; // jshint ignore:line
 	var map = new google.maps.Map(document.getElementById('map'), { zoom: 10, disableDefaultUI: true }); // jshint ignore:line
@@ -17,12 +21,4 @@ function find(geocoder, resultsMap) { "use strict";
     if (status === 'OK') { resultsMap.setCenter(results[0].geometry.location);
     	new google.maps.Marker({ map: resultsMap, position: results[0].geometry.location }); // jshint ignore:line
     } else { alert('Geocode was not successful for the following reason: ' + status); } });
-}
-
-function init() { "use strict";
-	var js = document.createElement('script');
-	var key = "AIzaSyBjNTscuOcDgc3iMVlQ519mS6yC-2V4px0";
-	js.src = "https://maps.googleapis.com/maps/api/js?key="+key+"&callback=area";
-	var script = document.getElementsByTagName('script')[0];
-	script.parentNode.insertBefore(js, script);
 }
