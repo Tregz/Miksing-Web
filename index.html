@@ -19,31 +19,21 @@
 <meta property="og:image:secure_url" content="https://www.tregz.com/miksing/draw/sm_logo.jpg" />
 <meta property="og:image:width" content="960" />
 <meta property="og:image:height" content="960" /><!---->
-<link rel="stylesheet" href="body/layout.css"> <!-- ?v=1.07--> 
+<link rel="stylesheet" href="body/layout.css?v=1.10"> <!-- ?v=1.10--> 
 </head>
 <body>
 <nav><ul class="sideline">
 	<a href="#"><img src="draw/ic_logo.svg" id="logo" alt="Miksing Logo">
 	<li id="here" class="left"><span id="name">Miksing</span></li></a>
-	<li class="menu"><input type="checkbox" id="sign">
-	<label for="sign"><img src="draw/ic_key.svg" class="icon" alt="Login Icon"><span>Log In</span></label>
-		<div class="down">
-			<input id="courriel" type="text" placeholder="Email"/>
-    		<input id="password" type="password" placeholder="Password"/>
-    		<button id="signIn" name="signIn">Continue</button>
-    		<button id="signUp" name="signUp">Sign Up</button>
-    		<button id="cancel" name="cancel">Cancel</button>
-		</div></li><!--
-	<a href="http://github.com/Tregz/Miksing"><li class="menu"><span>iOS</span></li></a>-->
-	<a href="http://github.com/Tregz/Miksing-Android"><li class="menu"><span>Android</span></li></a>
+	<!--<a href="http://github.com/Tregz/Miksing"><li class="menu"><span>iOS</span></li></a>-->
+	<a href="https://play.google.com/apps/testing/com.tregz.miksing"><li class="menu"><span>Android</span></li></a>
 	<input type="checkbox" id="lang" checked><label for="lang"><img src="draw/ic_language.svg" alt="Language Icon" class="icon"></label>
 	<li class="side"><a href="index-fr.html"><span>Français</span></a></li>
 </ul></nav>
-<div class="main">
-<input id="tab1" type="radio" name="tabs" checked>
+<div class="background">
+<input id="tab1" type="radio" name="tabs">
 <input id="tab2" type="radio" name="tabs">
-<input id="tab3" type="radio" name="tabs">
-<input id="tab4" type="radio" name="tabs">
+<input id="tab3" type="radio" name="tabs" checked>
 <header class="sideline">
 	<div id="tv">
 	<div id="player_0"></div>
@@ -53,32 +43,14 @@
 		<h2>A simple multimedia mixing app</h2>
 		<h1>University project</h1>
 	</div></div>
-	<input type="checkbox" class="expand" id="user">
-	<div id="profile"><div id="map"></div>
-		<div id="usercard">
-			<form><table>
-				<tr><td><input id="username" type="text" name="name" maxlength="50" placeholder="Name" ></td></tr>
-				<tr><td><input id="location" type="text" name="mail" maxlength="80" placeholder="Location"></td></tr>
-				<tr><td><input id="drawable" type="text" name="mail" maxlength="80" placeholder="Avatar"></td></tr>
-				<tr><td><button id="save" name="save">Save</button></td></tr>
-			</table></form>			
-			<object type="image/svg+xml" data="draw/av_face_9.svg" id="avatar">Avatar</object>
-			<img src="draw/ic_arrow_end.svg" alt="Arrow Button" id="switch">
-		</div>
-	</div>
 	<input type="checkbox" class="expand" id="info" checked><ul>
-	<label for="tab1" class="content1">
-	<li class="menu">Apero</li></label>
-	<label for="tab2" class="content2">
-	<li class="menu">Bistro</li></label>
-	<label for="tab3" class="content3">
-	<li class="menu">Club</li></label>
-	<label for="tab4" class="content4">
-	<li class="menu">Dance</li></label><!---->
+	<label for="tab1" class="content1"><li class="menu">Users</li></label>
+	<label for="tab2" class="content2"><li class="menu">Playlists</li></label>
+	<label for="tab3" class="content3"><li class="menu">Medias</li></label><!---->
 	<label for="info"><li class="side">
 	About <img src="draw/ic_expand.svg" alt="Expandable Icon" class="icon">
 	</li></label></ul>
-	<article><img src="draw/sm_logo.jpg" alt="Miksing Logo" class="small">
+	<div><article><img src="draw/sm_logo.jpg" alt="Miksing Logo" class="small">
 		<input type="checkbox" id="contact" class="expand">
 		<p>This is the web version of a mobile cross-platform app for multimedia mixing. The application is a student project developped for computing studies at <a href="http://uqtr.ca/">Université du Québec à Trois-Rivières</a>. The repository is public on GitHub in <a href="http://github.com/Tregz/Miksing">swift</a> (with CoreData) for iOS and <a href="http://github.com/Tregz/Miksing-Android">java</a> (with SQL) for Android. Both mobile devices can synchronize data through Google's Firebase.</p>
 		<aside class="expand"><label for="contact">
@@ -92,16 +64,52 @@
 			<tr><td><input type="submit" value="Send"></td></tr>
 		</table></form>
 	</article>
-</header>
-	<article class="sideline">
+	<article>
 		<h4>Updates 2018</h4>
-	<p>02-20. Firebase database, shared with Android app [beta].</p>
-	<p>02-15. YouTube video continuous automix for playlists.</p>
+		<p>02-20. Firebase database, shared with Android app [beta].</p>
+		<p>02-15. YouTube video continuous automix for playlists.</p>
 		<h4>Updates 2017</h4>
-	<p>09-06. Firebase authentication for existing and new users.</p>
-	<p>08-29. YouTube video transition, fading audio and switching visual halfway.</p></article>
-	<!--<div id="console"></div>-->	
-<section id="content1" class="sideline">
+		<p>09-06. Firebase authentication for existing and new users.</p>
+		<p>08-29. YouTube video transition, fading audio and switching visual halfway.</p></article></div>
+</header>
+<div id="controller" class="sideline">
+	<section id="section1">
+	<input type="checkbox" class="expand" id="user">
+	<div id="profile"><div id="map"></div>
+		<div id="usercard"><form><table>
+				<tr><td><input id="username" type="text" name="name" maxlength="50" placeholder="Name" ></td></tr>
+				<tr><td><input id="location" type="text" name="mail" maxlength="80" placeholder="Location"></td></tr>
+				<tr><td><input id="drawable" type="text" name="mail" maxlength="80" placeholder="Avatar"></td></tr>
+				<tr><td><button id="save" name="save">Save</button></td></tr></table></form>			
+			<object type="image/svg+xml" data="draw/av_face_9.svg" id="avatar">Avatar</object>
+			<img src="draw/ic_arrow_end.svg" alt="Arrow Button" id="switch"></div></div>
+		<header id="header1" class="controls">
+			<div class="controls" id="controls1"><div class="left"><input type="checkbox" id="sign">
+			<label for="sign"><img src="draw/ic_key.svg" class="icon" alt="Login Icon">Log In</label>
+			<div class="down">
+				<input id="courriel" type="text" placeholder="Email"/>
+    			<input id="password" type="password" placeholder="Password"/>
+    			<button id="signIn" name="signIn" class="button">Continue</button>
+    			<button id="signUp" name="signUp" class="button">Sign Up</button>
+    			<button id="cancel" name="cancel" class="button">Cancel</button>
+			</div><!----></div>
+			<div class="main"></div>
+			<div class="right"><span id="dropdown1"></span></div></div>
+		</header>
+		<div id="content1"></div></section>
+	<section id="section2">
+		<header id="header2" class="controls">
+		<div class="controls" id="controls2">
+			<div class="left"></div>
+			<div class="main"></div>
+			<div class="right"><span id="dropdown2"></span></div></div></header>
+		<div id="content2"></div></section>
+	<section id="section3">
+		<header id="header3" class="controls"><div class="controls" id="controls3">
+			<div class="left"></div>
+			<div class="main"></div>
+			<div class="right"><span id="dropdown3"></span></div></div></header>
+		<div id="content3">
 	<article><aside class="hashtags">#tropical #newwave #2016</aside>
 		<a onClick="mixing('dIK81cpOXYg')">
 		<img src="http://img.youtube.com/vi/dIK81cpOXYg/0.jpg" class="small" alt="YouTube Thumbnail">
@@ -120,16 +128,12 @@
 		<h3>Problem</h3><h4>Ariana Grande</h4>
 		<p>by Bauke Top; video edit by Tremenz</p></a>
 	</article>
-</section>
-<section id="content2" class="sideline">
 	<article><aside class="hashtags">#ballad #mashup #2015</aside>
 		<a onClick="mixing('WkyNf6GBI6M')">
 		<img src="http://img.youtube.com/vi/WkyNf6GBI6M/0.jpg" class="small" alt="YouTube Thumbnail">
 		<h3>Safe And Sound</h3><h4>Capital Cities</h4>
 		<p>by Dylan Vasey; video edit by Tremenz</p></a>
 	</article>
-</section>
-<section id="content3" class="sideline">
 	<article><aside class="hashtags">#pop #2015</aside>
 		<a onClick="mixing('_fPaBhR21Vw')">
 		<img src="http://img.youtube.com/vi/_fPaBhR21Vw/0.jpg" class="small" alt="YouTube Thumbnail">
@@ -142,20 +146,18 @@
 		<h3>Coco</h3><h4>Ed Sheeran</h4>
 		<p>by Hitimpulse; video edit by Tremenz</p></a>
 	</article>
-</section>
-<section id="content4" class="sideline">
 	<article><aside class="hashtags">#ballad #house #2015</aside>
 		<a onClick="mixing('scMATf60KWI')">
 		<img src="http://img.youtube.com/vi/scMATf60KWI/0.jpg" class="small" alt="YouTube Thumbnail">
 		<h3>Redemption Song</h3><h4>Mitchell Brunings</h4>
 		<p>by Koni; video edit by Tremenz</p></a>
-	</article>
+	</article></div>
 </section>
-</div>
+</div></div>
 <footer>website by <a href="mailto:jerome@tregz.com">jerome</a>@
 <a href="http://www.tregz.com">tregz.com</a> &copy;2017</footer>
-<script src="code/firebase.js"></script> <!-- ?v=1.07-->
-<script src="code/maps.js"></script> <!-- ?v=1.05-->
-<script src="code/youtube.js"></script> <!-- ?v=1.01-->
+<script src="code/firebase.js?v=1.10"></script> <!-- ?v=1.10-->
+<script src="code/maps.js?v=1.05"></script> <!-- ?v=1.05-->
+<script src="code/youtube.js?v=1.01"></script> <!-- ?v=1.01-->
 </body>
 </html>
