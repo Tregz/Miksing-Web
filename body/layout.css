@@ -118,15 +118,64 @@ div.background {
 	padding-bottom:15px;
 }
 
+div.details {
+	width:100%;
+	display: flex;
+	margin-bottom: 10px;
+}
+
+div.details button {
+	background:#6c3;
+	color:#060;
+	cursor:pointer;
+	font-weight: bold;
+	font-size: larger;
+	width:75px;
+ 	-webkit-appearance: none;
+}
+
+div.details input {
+	margin-right:10px;
+	padding:10px;
+	flex: 1;
+}
+
+div.details label {
+	color:#a06;
+	font-weight: bold;
+	line-height: 1.33;
+	padding:10px;
+	text-align: right;
+	width:75px;
+}
+
 div#map {
 	height:100%;
 	position: absolute;
 	width:100%;
 }
 
+div#media-scan,
+div#media-found {
+	padding:12px;
+}
+
 div#profile {
-	background:#fc0;
 	height:180px;
+}
+
+div#media-scan {
+	height:65px;
+}
+
+div#media-found {
+	height:320px;
+}
+
+div#profile,
+div#media-found,
+div#media-scan {
+	background:#fff0f0;
 	margin-bottom:10px;
 	margin-top:-10px;
 	position: relative;
@@ -195,7 +244,6 @@ form button {
 }
 
 form h2 {
-	
 	margin:0;
 	padding-left:5px;
 	text-align: center;
@@ -249,12 +297,6 @@ h3 {
 }
 
 h4 {
-	margin:0;
-}
-
-input#user:not(:checked) ~ div#profile {
-	height:0;
-	opacity:0;
 	margin:0;
 }
 
@@ -366,7 +408,7 @@ header.controls div .down {
 	position:absolute;
 	top:32px;
 	width:200px;
-	z-index:2;
+	z-index:1;
 }
 
 header.controls div .down .button {
@@ -417,7 +459,7 @@ header.controls span {
 	position: absolute;
 	right:4px;
 	text-align: left;
-	z-index: 2;
+	z-index: 1;
 }
 
 header.controls span label {
@@ -475,6 +517,23 @@ img.icon {
 
 input[type="radio"], input[type="checkbox"] {display:none;}
 
+input#new-media:not(:checked) ~ div#media-scan,
+input#media-details:not(:checked) ~ div#media-found,
+input#user:not(:checked) ~ div#profile { 
+	height:0;
+	opacity:0;
+	margin:0; }
+
+input#new-media:not(:checked) ~ div#media-scan {
+	margin-bottom: -24px;
+}
+
+input#media-details:not(:checked) ~ div#media-found {
+	margin-bottom: -36px;
+}
+
+input#sign:checked ~ .down { display:block; }
+
 li {
 	display:inline-flex;
 	font-size: smaller;
@@ -496,6 +555,10 @@ nav a, nav label {
 	text-shadow: 0 0 2px #000;
 }
 
+nav div.right {
+	float:right;
+}
+
 nav img#logo {
 	float:left;
 	width:35px;
@@ -510,9 +573,48 @@ nav img.icon {
 	cursor:pointer;
 }
 
-nav input#lang + label img.icon {
-	left:-10px;
-	float:right;
+nav input + label img.icon {
+	left:15px;
+	margin-left:5px;
+}
+
+nav input + label img:not(:hover) {opacity:0.9;}
+
+nav input#lang ~ .side {
+	right:60px;
+}
+
+nav input#lang:checked ~ .side {
+	opacity:0;
+	overflow:hidden;
+	transform: translateX(20px);
+	width: 0;
+	-webkit-transition: all 300ms ease-out;
+	-moz-transition: all 300ms ease-out;
+	-o-transition: all 300ms ease-out;
+	-ms-transition: all 300ms ease-out;
+	transition: all 300ms ease-out;
+}
+
+nav input#more ~ .down { 
+	background: rgba(170,0,102,0.67);
+	padding:10px;
+	padding-left:18px;
+	padding-right:18px;
+	position: absolute;
+	margin-right:-20px;
+	top:32px;
+}
+
+nav input#more:checked ~ .down {
+	opacity:0;
+	overflow:hidden;
+	width: 0;
+	-webkit-transition: all 300ms ease-out;
+	-moz-transition: all 300ms ease-out;
+	-o-transition: all 300ms ease-out;
+	-ms-transition: all 300ms ease-out;
+	transition: all 300ms ease-out;
 }
 
 nav li {
@@ -565,26 +667,12 @@ nav li.side span {
 nav li:not(#here):not(:hover) label,
 nav li:not(#here):not(:hover) span {opacity:.9;}
 
-nav input#lang:checked ~ .side {
-	opacity:0;
-	overflow:hidden;
-	transform: translateX(20px);
-	width: 0;
-	-webkit-transition: all 300ms ease-out;
-	-moz-transition: all 300ms ease-out;
-	-o-transition: all 300ms ease-out;
-	-ms-transition: all 300ms ease-out;
-	transition: all 300ms ease-out;
-} 
-
-nav input#lang + label img:not(:hover) {opacity:0.9;}
-
 section {
 	display:none;
 	position:relative;
 }
 
-ul {padding-left:0px;}
+ul { padding-left:0px; }
 
 #card-media-0:checked ~ #section3 article:not(.card-media-0) { display:none; }
 #card-media-1:checked ~ #section3 article:not(.card-media-1) { display:none; }
@@ -618,8 +706,6 @@ ul {padding-left:0px;}
 #card-user-7:checked ~ #section1 article:not(.card-user-7) { display:none; }
 #card-user-8:checked ~ #section1 article:not(.card-user-8) { display:none; }
 #card-user-9:checked ~ #section1 article:not(.card-user-9) { display:none; }
-
-#sign:checked ~ .down { display:block; }
 
 #tab1:checked ~ header label:not(.content1) li:hover,
 #tab2:checked ~ header label:not(.content2) li:hover,

@@ -19,7 +19,7 @@
 <meta property="og:image:secure_url" content="https://www.tregz.com/miksing/draw/sm_logo.jpg" />
 <meta property="og:image:width" content="960" />
 <meta property="og:image:height" content="960" /><!---->
-<link rel="stylesheet" href="body/layout.css?v=1.10"> <!-- ?v=1.10--> 
+<link rel="stylesheet" href="body/layout.css"> <!-- ?v=1.10--> 
 </head>
 <body>
 <nav><ul class="sideline">
@@ -27,8 +27,11 @@
 	<li id="here" class="left"><span id="name">Miksing</span></li></a>
 	<!--<a href="http://github.com/Tregz/Miksing"><li class="menu"><span>iOS</span></li></a>-->
 	<a href="https://play.google.com/apps/testing/com.tregz.miksing"><li class="menu"><span>Android</span></li></a>
+	<div class="right">
 	<input type="checkbox" id="lang" checked><label for="lang"><img src="draw/ic_language.svg" alt="Language Icon" class="icon"></label>
 	<li class="side"><a href="index-fr.html"><span>Français</span></a></li>
+	<input type="checkbox" id="more" checked><label for="more"><img src="draw/ic_more.svg" alt="More Icon" class="icon"></label>
+	<li class="down"><a href="aide/en/privacy.pdf"><span>Privacy</span></a></li></div>
 </ul></nav>
 <div class="background">
 <input id="tab1" type="radio" name="tabs">
@@ -74,17 +77,17 @@
 </header>
 <div id="controller" class="sideline">
 	<section id="section1">
-	<input type="checkbox" class="expand" id="user">
-	<div id="profile"><div id="map"></div>
-		<div id="usercard"><form><table>
-				<tr><td><input id="username" type="text" name="name" maxlength="50" placeholder="Name" ></td></tr>
+		<input type="checkbox" class="expand" id="user">
+		<div id="profile"><div id="map"></div>
+			<div id="usercard"><form><table>
+				<tr><td><input id="username" type="text" name="name" maxlength="50" placeholder="Name"></td></tr>
 				<tr><td><input id="location" type="text" name="mail" maxlength="80" placeholder="Location"></td></tr>
 				<tr><td><input id="drawable" type="text" name="mail" maxlength="80" placeholder="Avatar"></td></tr>
 				<tr><td><button id="save" name="save">Save</button></td></tr></table></form>			
 			<object type="image/svg+xml" data="draw/av_face_9.svg" id="avatar">Avatar</object>
 			<img src="draw/ic_arrow_end.svg" alt="Arrow Button" id="switch"></div></div>
-		<header id="header1" class="controls">
-			<div class="controls" id="controls1"><div class="left"><input type="checkbox" id="sign">
+		<header id="header1" class="controls"><div>
+			<div class="left"><input type="checkbox" id="sign">
 			<label for="sign"><img src="draw/ic_key.svg" class="icon" alt="Login Icon">Log In</label>
 			<div class="down">
 				<input id="courriel" type="text" placeholder="Email"/>
@@ -94,21 +97,47 @@
     			<button id="cancel" name="cancel" class="button">Cancel</button>
 			</div><!----></div>
 			<div class="main"></div>
-			<div class="right"><span id="dropdown1"></span></div></div>
-		</header>
+			<div class="right"><span id="dropdown1"></span></div>
+		</div></header>
 		<div id="content1"></div></section>
 	<section id="section2">
-		<header id="header2" class="controls">
-		<div class="controls" id="controls2">
+		<header id="header2" class="controls"><div>
 			<div class="left"></div>
 			<div class="main"></div>
-			<div class="right"><span id="dropdown2"></span></div></div></header>
+			<div class="right"><span id="dropdown2"></span></div>
+		</div></header>
 		<div id="content2"></div></section>
 	<section id="section3">
-		<header id="header3" class="controls"><div class="controls" id="controls3">
-			<div class="left"></div>
+		<input type="checkbox" class="expand" id="new-media">
+		<div id="media-scan">
+			<div class="details"><label>Video</label>
+			<input id="media-link" type="text" name="link" placeholder="YouTube Link">
+			<button id="grab" name="grab" class="button" onClick="ytRequest('media');">Scan</button></div>
+			</div>
+		<input type="checkbox" class="expand" id="media-details">
+			<div id="media-found">
+    			<div class="details"><label>Title</label>
+					<input id="media-name" type="text" name="name" maxlength="50" placeholder="Undefined"></div>
+    			<div class="details"><label>Author</label>
+					<input id="media-author" type="text" name="name" maxlength="50" placeholder="Undefined"></div>
+    			<div class="details"><label>Collabs</label>
+					<input id="media-with" type="text" name="name" maxlength="50" placeholder="Featuring"></div>
+				<div class="details"><label>Version</label>
+					<input id="media-kind" type="text" name="name" maxlength="50" placeholder="Undefined"></div>
+    			<div class="details"><label>Remix</label>
+					<input id="media-edit" type="text" name="name" maxlength="50" placeholder="Undefined"></div>
+    			<div class="details"><label>Video</label>
+					<input id="media-boot" type="text" name="name" maxlength="50" placeholder="Undefined">
+					<button id="newMedia" name="save" class="button" onClick="save('media');">Save</button>
+				</div>
+			</div>
+		<header id="header3" class="controls"><div>
+			<div class="left">
+			<label for="new-media"><img src="draw/ic_add.svg" class="icon" alt="Add Icon">Add media</label>
+			</div>
 			<div class="main"></div>
-			<div class="right"><span id="dropdown3"></span></div></div></header>
+			<div class="right"><span id="dropdown3"></span></div>
+		</div></header>
 		<div id="content3">
 	<article><aside class="hashtags">#tropical #newwave #2016</aside>
 		<a onClick="mixing('dIK81cpOXYg')">
@@ -154,10 +183,10 @@
 	</article></div>
 </section>
 </div></div>
-<footer>website by <a href="mailto:jerome@tregz.com">jerome</a>@
-<a href="http://www.tregz.com">tregz.com</a> &copy;2017</footer>
-<script src="code/firebase.js?v=1.10"></script> <!-- ?v=1.10-->
-<script src="code/maps.js?v=1.05"></script> <!-- ?v=1.05-->
-<script src="code/youtube.js?v=1.01"></script> <!-- ?v=1.01-->
+<footer>website by <a href="mailto:jerome@tregz.com">
+jerome</a>@<a href="http://www.tregz.com">tregz.com</a> &copy;2017</footer>
+<script src="code/firebase.js"></script> <!-- ?v=1.10-->
+<script src="code/maps.js"></script> <!-- ?v=1.05-->
+<script src="code/youtube.js"></script> <!-- ?v=1.01-->
 </body>
 </html>

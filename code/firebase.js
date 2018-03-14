@@ -317,3 +317,19 @@ function load(src) { "use strict";
 	var script = document.getElementsByTagName('script')[0];
 	script.parentNode.insertBefore(js, script);
 }
+
+function save(type) { "use strict"; // jshint ignore:line
+	if (type==="media") {
+		var fileRef = fRef.child(document.getElementById("newMedia").getAttribute("name"));
+		var auth = document.getElementById("media-author").value;
+		if (auth>0) { fileRef.child("auth").set(auth); }
+		//chic
+		//date
+		//UUID from id
+		
+		var name = document.getElementById("media-name").value;
+		if (name>0) { fileRef.child("name").set(name); }
+		
+		
+	}
+}
