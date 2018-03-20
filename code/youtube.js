@@ -3,10 +3,6 @@
  * Created by Jerome Robbins on 18-02-12.
  */
 
-var HTTP = "http://www.youtube.com/";
-var HTTPS = "https://www.youtube.com/";
-var WWW = "www.youtube.com/";
-
 var /* boolea */ loading, unstart;
 var /* intrvl */ cntDown, time_In, timeOut;
 var /* number */ fade_In, fadeOut, fadeVal=10, indexAt=0, playing=1, present=0, stopped=2, testing=0, vLength=0;
@@ -104,30 +100,27 @@ function countdown() { "use strict";
 	}
 }
 
-function ytRequest(type){ "use strict"; // jshint ignore:line
-	var link = "";
-	if (type==="media") { link = document.getElementById('media-link').value; }
-	if (link.startsWith(HTTP)||link.startsWith(HTTPS)||link.startsWith(WWW)) {
-		var list = link.includes("list=");
-		var trim = "watch?v=";
-		if (list) { trim = "list="; }
-		var id = link.substring(link.indexOf(trim)+trim.length);
-		var request = new XMLHttpRequest();
-		var server = "https://www.googleapis.com/youtube/v3/videos?part=snippet&key=";
-		if (list) { server = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key="; }
+function ytRequest(id,list){ "use strict"; // jshint ignore:line
+	var request = new XMLHttpRequest();
+	var server = "https://www.googleapis.com/youtube/v3/videos?part=snippet&key=";
+	if (list) { server = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key="; }
 	var apikey = "AIzaSyAfFy6RAXVxVwTZSRsHxr1oUp5recgXYqg";
 	var object = "&id=";
 	if (list) { object = "&playlistId="; }
     request.open('GET',server+apikey+object+id+"&max-results=50",true);
-    request.onreadystatechange = function() { var data;
+	request.onreadystatechange = function() { var data;
 		if (this.readyState===4 && this.status===200) {
 			data = JSON.parse(request.responseText);
 			if (list) { /**/ }
 			else { document.getElementById("media-details").checked = true;
-			document.getElementById("newMedia").setAttribute("name", data.items[0].id);
-			document.getElementById("media-name").value = data.items[0].snippet.title;
-			document.getElementById("media-boot").value = data.items[0].snippet.channelTitle; } }
+				document.getElementById("media-save-insert").setAttribute("name", data.items[0].id);
+				var channel = "Channel: "+data.items[0].snippet.channelTitle;
+				document.getElementById("media-chan").textContent = channel;
+				var date = data.items[0].snippet.publishedAt;
+				var released = date.substring(0, date.indexOf('T'));
+				document.getElementById("media-date-insert").textContent = "Released: "+released;
+				document.getElementById("media-date-insert").setAttribute("name", released);
+				document.getElementById("media-name-insert").value = data.items[0].snippet.title; } }
 		else { data = 'error'; } };
-	request.send(); }
-	else { alert("Video must be hosted by YouTube."); }			   
+	request.send();
 }

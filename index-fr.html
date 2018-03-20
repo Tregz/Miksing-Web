@@ -19,15 +19,19 @@
 <meta property="og:image:secure_url" content="https://www.tregz.com/miksing/draw/sm_logo.jpg" />
 <meta property="og:image:width" content="960" />
 <meta property="og:image:height" content="960" />
-<link rel="stylesheet" href="body/layout.css?v=1.10"> <!-- ?v=1.10-->
 </head>
 <body>
 <nav><ul class="sideline">
 	<a id="here" href="#"><img src="draw/ic_logo.svg" alt="Logo Miksing" id="logo"><li class="left"><span>Miksing</span></li></a>
 	<!--<a href="http://github.com/Tregz/Miksing"><li class="menu"><span>iOS</span></li></a>-->
 	<a href="http://github.com/Tregz/Miksing-Android"><li class="menu"><span>Android</span></li></a>
-	<input type="checkbox" id="lang" checked><label for="lang"><img src="draw/ic_language.svg" alt="Icone de langue" class="icon"></label>
+	<div class="right">
+	<input type="checkbox" id="lang" checked>
+	<label for="lang"><img src="draw/ic_language.svg" alt="Icone de langue" class="icon"></label>
 	<li class="side"><a href="index.html"><span>English</span></a></li>
+	<!--<input type="checkbox" id="more" checked>
+	<label for="more"><img src="draw/ic_more.svg" alt="More Icon" class="icon"></label>
+	<li class="down"><a href="aide/en/privacy.pdf"><span>Privacy</span></a></li>--></div>
 </ul></nav>
 <div class="background">
 <input id="tab1" type="radio" name="tabs" checked>
@@ -70,7 +74,7 @@
 		<p>08-29. Transition YouTube : atténuation audio; changement visuel à mi-chemin.</p></article></div>
 </header>
 <div id="controller" class="sideline">
-<section id="section1">
+	<section id="section1">
 	<input type="checkbox" class="expand" id="user">
 	<div id="profile"><div id="map"></div>
 		<div id="usercard"><form><table>
@@ -81,7 +85,7 @@
 		</table></form>
 			<object type="image/svg+xml" data="draw/av_face_9.svg" id="avatar">Avatar</object>
 			<img src="draw/ic_arrow_end.svg" alt="Arrow Button" id="switch"></div></div>
-		<header id="header1" class="controls">
+		<div id="list1"><header id="header1" class="controls">
 			<div class="controls" id="controls1"><div class="left"><input type="checkbox" id="sign">
 			<label for="sign"><img src="draw/ic_key.svg" class="icon" alt="Login Icon">Connexion</label>
 			<div class="down">
@@ -94,78 +98,38 @@
 			<div class="main"></div>
 			<div class="right"><span id="dropdown1"></span></div></div>
 		</header>
-		<div id="content1"></div>
-</section>
-<section id="section2">
-		<header id="header2" class="controls">
-		<div class="controls" id="controls2">
+		<div id="items1"></div></div>
+	</section>
+	<section id="section2">
+		<div id="list2"><header id="header2" class="controls"><div>
 			<div class="left"></div>
 			<div class="main"></div>
 			<div class="right"><span id="dropdown2"></span></div></div></header>
-		<div id="content2"></div></section>
+		<div id="items2"></div></div>
+	</section>
 	<section id="section3">
-		<header id="header3" class="controls"><div class="controls" id="controls3">
-			<div class="left"></div>
+		<input type="checkbox" class="expand" id="new-media">
+		<div id="media-scan">
+			<div class="details"><label>Video</label>
+			<input id="media-link" type="text" name="link" placeholder="YouTube Link">
+			<button id="grab" name="grab" class="button" onClick="vids('media');">Scan</button></div>
+			</div>
+		<input type="checkbox" class="expand" id="media-details">
+		<div id="media-found"><label class="infos" id="media-chan">Channel</label><br></div>
+		<div id="list3"><header id="header3" class="controls"><div>
+			<div id="insert" class="left"></div>
 			<div class="main"></div>
 			<div class="right"><span id="dropdown3"></span></div></div></header>
-		<div id="content3">
-	<article><aside class="hashtags">#tropical #newwave #2016</aside>
-		<a onClick="mixing('dIK81cpOXYg')">
-		<img src="http://img.youtube.com/vi/dIK81cpOXYg/0.jpg" alt="YouTube Thumbnail" class="small">
-		<h3>Take On Me</h3>
-		<h4>A-Ha</h4>
-		<p>par Kygo; édit vidéo par Tremenz</p></a>
-	</article>
-	<article><aside class="hashtags">#tropical #rnb #2015</aside>
-		<a onClick="mixing('5-q3meXJ6W4')">
-		<img src="http://img.youtube.com/vi/5-q3meXJ6W4/0.jpg" alt="YouTube Thumbnail" class="small">
-		<h3>I'm Real</h3>
-		<h4>Jennifer Lopez</h4>
-		<p>par Pegato; édit vidéo par Tremenz</p></a>
-	</article>
-	<article><aside class="hashtags">#2015</aside>
-		<a onClick="mixing('V7t1SToZ-i8')">
-		<img src="http://img.youtube.com/vi/V7t1SToZ-i8/0.jpg" alt="YouTube Thumbnail" class="small">
-		<h3>Problem</h3>
-		<h4>Arianan Grande</h4>
-		<p>par Bauke Top; édit vidéo par Tremenz</p></a>
-	</article>
-	<article><aside class="hashtags">#ballad #mashup #2015</aside>
-		<a onClick="mixing('WkyNf6GBI6M')">
-		<img src="http://img.youtube.com/vi/WkyNf6GBI6M/0.jpg" alt="YouTube Thumbnail" class="small">
-		<h3>Safe And Sound</h3>
-		<h4>Capital Cities</h4>
-		<p>par Dylan Vasey; édit vidéo par Tremenz</p></a>
-	</article>
-	<article><aside class="hashtags">#pop #2015</aside>
-		<a onClick="mixing('_fPaBhR21Vw')">
-		<img src="http://img.youtube.com/vi/_fPaBhR21Vw/0.jpg" alt="YouTube Thumbnail" class="small">
-		<h3>Promiscuous</h3>
-		<h4>Nelly Furtado</h4>
-		<p>par Basic Tape; édit vidéo par Tremenz</p></a>
-	</article>
-	<article><aside class="hashtags">#trap #mainstream #2015</aside>
-		<a onClick="mixing('YB_z0Z3msAQ')">
-		<img src="http://img.youtube.com/vi/YB_z0Z3msAQ/0.jpg" alt="YouTube Thumbnail" class="small">
-		<h3>Coco</h3>
-		<h4>Ed Sheeran</h4>
-		<p>par Hitimpulse; édit vidéo par Tremenz</p></a>
-	</article>
-			<article><aside class="hashtags">#ballad #house #2015</aside>
-		<a onClick="mixing('scMATf60KWI')">
-		<img src="http://img.youtube.com/vi/scMATf60KWI/0.jpg" alt="YouTube Thumbnail" class="small">
-		<h3>Redemption Song</h3>
-		<h4>Mitchell Brunings</h4>
-		<p>par Koni; édit vidéo par Tremenz</p></a>
-	</article>
-	</div>
-</section>
+		<div id="items3"></div></div>
+	</section>
 </div>
 </div>
 <footer>site Internet par <a href="mailto:jerome@tregz.com">jerome</a>@
 <a href="http://www.tregz.com">tregz.com</a> &copy;2017</footer>
-<script src="code/firebase.js?v=1.10"></script> <!-- ?v=1.10-->
+<link rel="stylesheet" href="body/layout.css?v=1.14"> <!-- ?v=1.14--> 
+<script src="code/firebase.js?v=1.14"></script> <!-- ?v=1.14-->
 <script src="code/maps.js?v=1.05"></script> <!-- ?v=1.05-->
-<script src="code/youtube.js?v=1.01"></script> <!-- ?v=1.01-->
+<script src="code/youtube.js?v=1.04"></script> <!-- ?v=1.04-->
+<link rel="stylesheet" href="body/cards.css?v=1.01"> <!-- ?v=1.01--> 
 </body>
 </html>

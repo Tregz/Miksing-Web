@@ -19,7 +19,6 @@
 <meta property="og:image:secure_url" content="https://www.tregz.com/miksing/draw/sm_logo.jpg" />
 <meta property="og:image:width" content="960" />
 <meta property="og:image:height" content="960" /><!---->
-<link rel="stylesheet" href="body/layout.css"> <!-- ?v=1.10--> 
 </head>
 <body>
 <nav><ul class="sideline">
@@ -28,9 +27,11 @@
 	<!--<a href="http://github.com/Tregz/Miksing"><li class="menu"><span>iOS</span></li></a>-->
 	<a href="https://play.google.com/apps/testing/com.tregz.miksing"><li class="menu"><span>Android</span></li></a>
 	<div class="right">
-	<input type="checkbox" id="lang" checked><label for="lang"><img src="draw/ic_language.svg" alt="Language Icon" class="icon"></label>
+	<input type="checkbox" id="lang" checked>
+	<label for="lang"><img src="draw/ic_language.svg" alt="Language Icon" class="icon"></label>
 	<li class="side"><a href="index-fr.html"><span>Français</span></a></li>
-	<input type="checkbox" id="more" checked><label for="more"><img src="draw/ic_more.svg" alt="More Icon" class="icon"></label>
+	<input type="checkbox" id="more" checked>
+	<label for="more"><img src="draw/ic_more.svg" alt="More Icon" class="icon"></label>
 	<li class="down"><a href="aide/en/privacy.pdf"><span>Privacy</span></a></li></div>
 </ul></nav>
 <div class="background">
@@ -86,7 +87,7 @@
 				<tr><td><button id="save" name="save">Save</button></td></tr></table></form>			
 			<object type="image/svg+xml" data="draw/av_face_9.svg" id="avatar">Avatar</object>
 			<img src="draw/ic_arrow_end.svg" alt="Arrow Button" id="switch"></div></div>
-		<header id="header1" class="controls"><div>
+		<div id="list1"><header id="header1" class="controls"><div>
 			<div class="left"><input type="checkbox" id="sign">
 			<label for="sign"><img src="draw/ic_key.svg" class="icon" alt="Login Icon">Log In</label>
 			<div class="down">
@@ -97,96 +98,37 @@
     			<button id="cancel" name="cancel" class="button">Cancel</button>
 			</div><!----></div>
 			<div class="main"></div>
-			<div class="right"><span id="dropdown1"></span></div>
-		</div></header>
-		<div id="content1"></div></section>
+			<div class="right"><span id="dropdown1"></span></div></div></header>
+		<div id="items1"></div></div></section>
 	<section id="section2">
-		<header id="header2" class="controls"><div>
+		<div id="list2"><header id="header2" class="controls"><div>
 			<div class="left"></div>
 			<div class="main"></div>
-			<div class="right"><span id="dropdown2"></span></div>
-		</div></header>
-		<div id="content2"></div></section>
+			<div class="right"><span id="dropdown2"></span></div></div></header>
+		<div id="items2"></div></div>
+	</section>
 	<section id="section3">
 		<input type="checkbox" class="expand" id="new-media">
 		<div id="media-scan">
 			<div class="details"><label>Video</label>
 			<input id="media-link" type="text" name="link" placeholder="YouTube Link">
-			<button id="grab" name="grab" class="button" onClick="ytRequest('media');">Scan</button></div>
+			<button id="grab" name="grab" class="button" onClick="vids('media');">Scan</button></div>
 			</div>
 		<input type="checkbox" class="expand" id="media-details">
-			<div id="media-found">
-    			<div class="details"><label>Title</label>
-					<input id="media-name" type="text" name="name" maxlength="50" placeholder="Undefined"></div>
-    			<div class="details"><label>Author</label>
-					<input id="media-author" type="text" name="name" maxlength="50" placeholder="Undefined"></div>
-    			<div class="details"><label>Collabs</label>
-					<input id="media-with" type="text" name="name" maxlength="50" placeholder="Featuring"></div>
-				<div class="details"><label>Version</label>
-					<input id="media-kind" type="text" name="name" maxlength="50" placeholder="Undefined"></div>
-    			<div class="details"><label>Remix</label>
-					<input id="media-edit" type="text" name="name" maxlength="50" placeholder="Undefined"></div>
-    			<div class="details"><label>Video</label>
-					<input id="media-boot" type="text" name="name" maxlength="50" placeholder="Undefined">
-					<button id="newMedia" name="save" class="button" onClick="save('media');">Save</button>
-				</div>
-			</div>
-		<header id="header3" class="controls"><div>
-			<div class="left">
-			<label for="new-media"><img src="draw/ic_add.svg" class="icon" alt="Add Icon">Add media</label>
-			</div>
+		<div id="media-found"><label class="infos" id="media-chan">Channel</label><br></div>
+		<div id="list3"><header id="header3" class="controls"><div>
+			<div id="insert" class="left"></div>
 			<div class="main"></div>
-			<div class="right"><span id="dropdown3"></span></div>
-		</div></header>
-		<div id="content3">
-	<article><aside class="hashtags">#tropical #newwave #2016</aside>
-		<a onClick="mixing('dIK81cpOXYg')">
-		<img src="http://img.youtube.com/vi/dIK81cpOXYg/0.jpg" class="small" alt="YouTube Thumbnail">
-		<h3>Take On Me</h3><h4>A-Ha</h4>
-		<p>by Kygo; video edit by Tremenz</p></a> 
-	</article>
-	<article><aside class="hashtags">#tropical #rnb #2015</aside>
-		<a onClick="mixing('5-q3meXJ6W4')">
-		<img src="http://img.youtube.com/vi/5-q3meXJ6W4/0.jpg" class="small" alt="YouTube Thumbnail">
-		<h3>I'm Real</h3><h4>Jennifer Lopez</h4>
-		<p>by Pegato; video edit by Tremenz</p></a>
-	</article>
-	<article><aside class="hashtags">#pop #2015</aside>
-		<a onClick="mixing('V7t1SToZ-i8')">
-		<img src="http://img.youtube.com/vi/V7t1SToZ-i8/0.jpg" class="small" alt="YouTube Thumbnail">
-		<h3>Problem</h3><h4>Ariana Grande</h4>
-		<p>by Bauke Top; video edit by Tremenz</p></a>
-	</article>
-	<article><aside class="hashtags">#ballad #mashup #2015</aside>
-		<a onClick="mixing('WkyNf6GBI6M')">
-		<img src="http://img.youtube.com/vi/WkyNf6GBI6M/0.jpg" class="small" alt="YouTube Thumbnail">
-		<h3>Safe And Sound</h3><h4>Capital Cities</h4>
-		<p>by Dylan Vasey; video edit by Tremenz</p></a>
-	</article>
-	<article><aside class="hashtags">#pop #2015</aside>
-		<a onClick="mixing('_fPaBhR21Vw')">
-		<img src="http://img.youtube.com/vi/_fPaBhR21Vw/0.jpg" class="small" alt="YouTube Thumbnail">
-		<h3>Promiscuous</h3><h4>Nelly Furtado</h4>
-		<p>by Basic Tape; video edit by Tremenz</p></a>
-	</article>
-	<article><aside class="hashtags">#trap #mainstream #2015</aside>
-		<a onClick="mixing('YB_z0Z3msAQ')">
-		<img src="http://img.youtube.com/vi/YB_z0Z3msAQ/0.jpg" class="small" alt="YouTube Thumbnail">
-		<h3>Coco</h3><h4>Ed Sheeran</h4>
-		<p>by Hitimpulse; video edit by Tremenz</p></a>
-	</article>
-	<article><aside class="hashtags">#ballad #house #2015</aside>
-		<a onClick="mixing('scMATf60KWI')">
-		<img src="http://img.youtube.com/vi/scMATf60KWI/0.jpg" class="small" alt="YouTube Thumbnail">
-		<h3>Redemption Song</h3><h4>Mitchell Brunings</h4>
-		<p>by Koni; video edit by Tremenz</p></a>
-	</article></div>
+			<div class="right"><span id="dropdown3"></span></div></div></header>
+		<div id="items3"></div></div>
 </section>
 </div></div>
 <footer>website by <a href="mailto:jerome@tregz.com">
 jerome</a>@<a href="http://www.tregz.com">tregz.com</a> &copy;2017</footer>
-<script src="code/firebase.js"></script> <!-- ?v=1.10-->
-<script src="code/maps.js"></script> <!-- ?v=1.05-->
-<script src="code/youtube.js"></script> <!-- ?v=1.01-->
+<link rel="stylesheet" href="body/layout.css?v=1.14"> <!-- ?v=1.14--> 
+<script src="code/firebase.js?v=1.14"></script> <!-- ?v=1.14-->
+<script src="code/maps.js?v=1.05"></script> <!-- ?v=1.05-->
+<script src="code/youtube.js?v=1.04"></script> <!-- ?v=1.04-->
+<link rel="stylesheet" href="body/cards.css?v=1.01"> <!-- ?v=1.01--> 
 </body>
 </html>

@@ -1,0 +1,219 @@
+@charset "UTF-8";
+/* CSS Document */
+
+aside.hashtags {
+	background: #fee;
+	border:solid 1px #fdd;
+	border-bottom-left-radius:10px;
+	border-top-right-radius:10px;
+	border-right:none;
+	border-top:none;
+	position:absolute;
+	top:0;
+}
+
+aside.options {
+	bottom:0;
+	position:absolute;
+}
+
+article img.small {
+	width:150px;
+	max-height:150px;
+	float:left;
+	margin-right:15px;
+	margin-bottom:10px;
+	-webkit-transition: all 333ms ease-out;
+	-moz-transition: all 333ms ease-out;
+	-o-transition: all 333ms ease-out;
+	-ms-transition: all 333ms ease-out;
+	transition: all 333ms ease-out;
+}
+
+div.card-main {
+	margin-top:-20px;
+	min-height: 120px;
+ 	position: relative;
+}
+
+div.media-editing {
+	height:0;
+	margin-top:15px;
+	opacity:0;
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	-ms-transition: all 1s ease;
+	transition: all 1s ease;
+}
+
+@media only screen and (max-width: 35em) {
+	article img.small { width:auto;
+		width:50px;
+		margin-bottom:0px;
+	}
+}
+
+#input-media-item--:checked ~ header span:not(:hover) label:not(.label-media--),
+#input-media-item-0:checked ~ header span:not(:hover) label:not(.label-media-0),
+#input-media-item-1:checked ~ header span:not(:hover) label:not(.label-media-1),
+#input-media-item-2:checked ~ header span:not(:hover) label:not(.label-media-2),
+#input-media-item-3:checked ~ header span:not(:hover) label:not(.label-media-3),
+#input-media-item-4:checked ~ header span:not(:hover) label:not(.label-media-4),
+#input-media-item-5:checked ~ header span:not(:hover) label:not(.label-media-5),
+#input-media-item-6:checked ~ header span:not(:hover) label:not(.label-media-6),
+#input-media-item-7:checked ~ header span:not(:hover) label:not(.label-media-7),
+#input-media-item-8:checked ~ header span:not(:hover) label:not(.label-media-8),
+#input-media-item-9:checked ~ header span:not(:hover) label:not(.label-media-9),
+.input-media--:checked ~ header span:not(:hover) label:not(.label-media--),
+.input-media-0:checked ~ header span:not(:hover) label:not(.label-media-0),
+.input-media-1:checked ~ header span:not(:hover) label:not(.label-media-1),
+.input-media-2:checked ~ header span:not(:hover) label:not(.label-media-2),
+.input-media-3:checked ~ header span:not(:hover) label:not(.label-media-3),
+.input-media-4:checked ~ header span:not(:hover) label:not(.label-media-4),
+.input-media-5:checked ~ header span:not(:hover) label:not(.label-media-5),
+.input-media-6:checked ~ header span:not(:hover) label:not(.label-media-6),
+.input-media-7:checked ~ header span:not(:hover) label:not(.label-media-7),
+.input-media-8:checked ~ header span:not(:hover) label:not(.label-media-8),
+.input-media-9:checked ~ header span:not(:hover) label:not(.label-media-9),
+#input-media-item-0:checked ~ #items3 article:not(.card-media-0),
+#input-media-item-1:checked ~ #items3 article:not(.card-media-1),
+#input-media-item-2:checked ~ #items3 article:not(.card-media-2),
+#input-media-item-3:checked ~ #items3 article:not(.card-media-3),
+#input-media-item-4:checked ~ #items3 article:not(.card-media-4),
+#input-media-item-5:checked ~ #items3 article:not(.card-media-5),
+#input-media-item-6:checked ~ #items3 article:not(.card-media-6),
+#input-media-item-7:checked ~ #items3 article:not(.card-media-7),
+#input-media-item-8:checked ~ #items3 article:not(.card-media-8),
+#input-media-item-9:checked ~ #items3 article:not(.card-media-9),
+#input-playlist-item--:checked ~ header span:not(:hover) label:not(.label-playlist--),
+#input-playlist-item-0:checked ~ header span:not(:hover) label:not(.label-playlist-0),
+#input-playlist-item-1:checked ~ header span:not(:hover) label:not(.label-playlist-1),
+#input-playlist-item-2:checked ~ header span:not(:hover) label:not(.label-playlist-2),
+#input-playlist-item-3:checked ~ header span:not(:hover) label:not(.label-playlist-3),
+#input-playlist-item-4:checked ~ header span:not(:hover) label:not(.label-playlist-4),
+#input-playlist-item-5:checked ~ header span:not(:hover) label:not(.label-playlist-5),
+#input-playlist-item-6:checked ~ header span:not(:hover) label:not(.label-playlist-6),
+#input-playlist-item-7:checked ~ header span:not(:hover) label:not(.label-playlist-7),
+#input-playlist-item-8:checked ~ header span:not(:hover) label:not(.label-playlist-8),
+#input-playlist-item-9:checked ~ header span:not(:hover) label:not(.label-playlist-9),
+.input-playlist--:checked ~ header span:not(:hover) label:not(.label-playlist--),
+.input-playlist-0:checked ~ header span:not(:hover) label:not(.label-playlist-0),
+.input-playlist-1:checked ~ header span:not(:hover) label:not(.label-playlist-1),
+.input-playlist-2:checked ~ header span:not(:hover) label:not(.label-playlist-2),
+.input-playlist-3:checked ~ header span:not(:hover) label:not(.label-playlist-3),
+.input-playlist-4:checked ~ header span:not(:hover) label:not(.label-playlist-4),
+.input-playlist-5:checked ~ header span:not(:hover) label:not(.label-playlist-5),
+.input-playlist-6:checked ~ header span:not(:hover) label:not(.label-playlist-6),
+.input-playlist-7:checked ~ header span:not(:hover) label:not(.label-playlist-7),
+.input-playlist-8:checked ~ header span:not(:hover) label:not(.label-playlist-8),
+.input-playlist-9:checked ~ header span:not(:hover) label:not(.label-playlist-9),
+#input-playlist-item-0:checked ~ #items2 article:not(.card-playlist-0),
+#input-playlist-item-1:checked ~ #items2 article:not(.card-playlist-1),
+#input-playlist-item-2:checked ~ #items2 article:not(.card-playlist-2),
+#input-playlist-item-3:checked ~ #items2 article:not(.card-playlist-3),
+#input-playlist-item-4:checked ~ #items2 article:not(.card-playlist-4),
+#input-playlist-item-5:checked ~ #items2 article:not(.card-playlist-5),
+#input-playlist-item-6:checked ~ #items2 article:not(.card-playlist-6),
+#input-playlist-item-7:checked ~ #items2 article:not(.card-playlist-7),
+#input-playlist-item-8:checked ~ #items2 article:not(.card-playlist-8),
+#input-playlist-item-9:checked ~ #items2 article:not(.card-playlist-9),
+#input-user-item--:checked ~ header span:not(:hover) label:not(.label-user--),
+#input-user-item-0:checked ~ header span:not(:hover) label:not(.label-user-0),
+#input-user-item-1:checked ~ header span:not(:hover) label:not(.label-user-1),
+#input-user-item-2:checked ~ header span:not(:hover) label:not(.label-user-2),
+#input-user-item-3:checked ~ header span:not(:hover) label:not(.label-user-3),
+#input-user-item-4:checked ~ header span:not(:hover) label:not(.label-user-4),
+#input-user-item-5:checked ~ header span:not(:hover) label:not(.label-user-5),
+#input-user-item-6:checked ~ header span:not(:hover) label:not(.label-user-6),
+#input-user-item-7:checked ~ header span:not(:hover) label:not(.label-user-7),
+#input-user-item-8:checked ~ header span:not(:hover) label:not(.label-user-8),
+#input-user-item-9:checked ~ header span:not(:hover) label:not(.label-user-9),
+.input-user--:checked ~ header span:not(:hover) label:not(.label-user--),
+.input-user-0:checked ~ header span:not(:hover) label:not(.label-user-0),
+.input-user-1:checked ~ header span:not(:hover) label:not(.label-user-1),
+.input-user-2:checked ~ header span:not(:hover) label:not(.label-user-2),
+.input-user-3:checked ~ header span:not(:hover) label:not(.label-user-3),
+.input-user-4:checked ~ header span:not(:hover) label:not(.label-user-4),
+.input-user-5:checked ~ header span:not(:hover) label:not(.label-user-5),
+.input-user-6:checked ~ header span:not(:hover) label:not(.label-user-6),
+.input-user-7:checked ~ header span:not(:hover) label:not(.label-user-7),
+.input-user-8:checked ~ header span:not(:hover) label:not(.label-user-8),
+.input-user-9:checked ~ header span:not(:hover) label:not(.label-user-9),
+#input-user-item-0:checked ~ #items1 article:not(.card-user-0),
+#input-user-item-1:checked ~ #items1 article:not(.card-user-1),
+#input-user-item-2:checked ~ #items1 article:not(.card-user-2),
+#input-user-item-3:checked ~ #items1 article:not(.card-user-3),
+#input-user-item-4:checked ~ #items1 article:not(.card-user-4),
+#input-user-item-5:checked ~ #items1 article:not(.card-user-5),
+#input-user-item-6:checked ~ #items1 article:not(.card-user-6),
+#input-user-item-7:checked ~ #items1 article:not(.card-user-7),
+#input-user-item-8:checked ~ #items1 article:not(.card-user-8),
+#input-user-item-9:checked ~ #items1 article:not(.card-user-9) { display: none; }
+
+#input-media-item--:checked ~ header span:hover label.label-media--,
+#input-media-item-0:checked ~ header span:hover label.label-media-0,
+#input-media-item-1:checked ~ header span:hover label.label-media-1,
+#input-media-item-2:checked ~ header span:hover label.label-media-2,
+#input-media-item-3:checked ~ header span:hover label.label-media-3,
+#input-media-item-4:checked ~ header span:hover label.label-media-4,
+#input-media-item-5:checked ~ header span:hover label.label-media-5,
+#input-media-item-6:checked ~ header span:hover label.label-media-6,
+#input-media-item-7:checked ~ header span:hover label.label-media-7,
+#input-media-item-8:checked ~ header span:hover label.label-media-8,
+#input-media-item-9:checked ~ header span:hover label.label-media-9,
+.input-media--:checked ~ header span:hover label.label-media--,
+.input-media-0:checked ~ header span:hover label.label-media-0,
+.input-media-1:checked ~ header span:hover label.label-media-1,
+.input-media-2:checked ~ header span:hover label.label-media-2,
+.input-media-3:checked ~ header span:hover label.label-media-3,
+.input-media-4:checked ~ header span:hover label.label-media-4,
+.input-media-5:checked ~ header span:hover label.label-media-5,
+.input-media-6:checked ~ header span:hover label.label-media-6,
+.input-media-7:checked ~ header span:hover label.label-media-7,
+.input-media-8:checked ~ header span:hover label.label-media-8,
+.input-media-9:checked ~ header span:hover label.label-media-9,
+#input-playlist-item--:checked ~ header span:hover label.label-playlist--,
+#input-playlist-item-0:checked ~ header span:hover label.label-playlist-0,
+#input-playlist-item-1:checked ~ header span:hover label.label-playlist-1,
+#input-playlist-item-2:checked ~ header span:hover label.label-playlist-2,
+#input-playlist-item-3:checked ~ header span:hover label.label-playlist-3,
+#input-playlist-item-4:checked ~ header span:hover label.label-playlist-4,
+#input-playlist-item-5:checked ~ header span:hover label.label-playlist-5,
+#input-playlist-item-6:checked ~ header span:hover label.label-playlist-6,
+#input-playlist-item-7:checked ~ header span:hover label.label-playlist-7,
+#input-playlist-item-8:checked ~ header span:hover label.label-playlist-8,
+#input-playlist-item-9:checked ~ header span:hover label.label-playlist-9,
+.input-playlist--:checked ~ header span:hover label.label-playlist--,
+.input-playlist-0:checked ~ header span:hover label.label-playlist-0,
+.input-playlist-1:checked ~ header span:hover label.label-playlist-1,
+.input-playlist-2:checked ~ header span:hover label.label-playlist-2,
+.input-playlist-3:checked ~ header span:hover label.label-playlist-3,
+.input-playlist-4:checked ~ header span:hover label.label-playlist-4,
+.input-playlist-5:checked ~ header span:hover label.label-playlist-5,
+.input-playlist-6:checked ~ header span:hover label.label-playlist-6,
+.input-playlist-7:checked ~ header span:hover label.label-playlist-7,
+.input-playlist-8:checked ~ header span:hover label.label-playlist-8,
+.input-playlist-9:checked ~ header span:hover label.label-playlist-9,
+#input-user-item--:checked ~ header span:hover label.label-user--,
+#input-user-item-0:checked ~ header span:hover label.label-user-0,
+#input-user-item-1:checked ~ header span:hover label.label-user-1,
+#input-user-item-2:checked ~ header span:hover label.label-user-2,
+#input-user-item-3:checked ~ header span:hover label.label-user-3,
+#input-user-item-4:checked ~ header span:hover label.label-user-4,
+#input-user-item-5:checked ~ header span:hover label.label-user-5,
+#input-user-item-6:checked ~ header span:hover label.label-user-6,
+#input-user-item-7:checked ~ header span:hover label.label-user-7,
+#input-user-item-8:checked ~ header span:hover label.label-user-8,
+#input-user-item-9:checked ~ header span:hover label.label-user-9,
+.input-user--:checked ~ header span:hover label.label-user--,
+.input-user-0:checked ~ header span:hover label.label-user-0,
+.input-user-1:checked ~ header span:hover label.label-user-1,
+.input-user-2:checked ~ header span:hover label.label-user-2,
+.input-user-3:checked ~ header span:hover label.label-user-3,
+.input-user-4:checked ~ header span:hover label.label-user-4,
+.input-user-5:checked ~ header span:hover label.label-user-5,
+.input-user-6:checked ~ header span:hover label.label-user-6,
+.input-user-7:checked ~ header span:hover label.label-user-7,
+.input-user-8:checked ~ header span:hover label.label-user-8,
+.input-user-9:checked ~ header span:hover label.label-user-9 { color: darkgray; }
