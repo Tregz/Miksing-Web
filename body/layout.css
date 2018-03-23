@@ -106,8 +106,14 @@ div.details button {
 	cursor:pointer;
 	font-weight: bold;
 	font-size: larger;
+	margin-right:5px;
 	width:75px;
  	-webkit-appearance: none;
+}
+
+div.details button.kill {
+	background:#c63;
+	color:#600;
 }
 
 div.details input {
@@ -180,7 +186,7 @@ div#profile form input {
 	color:#a06;
 }
 
-div#profile img#switch {
+img#switch {
 	position:absolute;
 	right:0;
 	bottom:0;
@@ -365,41 +371,13 @@ header.controls {
 	height:45px;
 	margin-bottom:10px;
 	margin-top:-10px;
-	position:relative;	
+	position:relative;
 }
 
 header.controls div {
 	display:flex;
     flex-direction: row;
 	width:100%;
-}
-
-header.controls div .down {
-	background:#fee;
-	border-bottom:solid 1px #fdd;
-	border-left:solid 1px #fdd;
-	border-right:solid 1px #fdd;
-	display:none;
-	margin-left:-11px;
-	padding:7px;
-	position:absolute;
-	top:32px;
-	width:200px;
-	z-index:1;
-}
-
-header.controls div .down .button {
- 	-webkit-appearance: none;
-}
-
-
-header.controls div .down button,
-header.controls div .down input {
-	padding:5px;
-}
-
-header.controls div .down input {
-	margin-bottom:5px;
 }
 
 header.controls div .left {
@@ -435,6 +413,12 @@ header.controls span {
 	text-align: left;
 	z-index: 1;
 	top:4px;
+}
+
+#header1.controls span,
+#header2.controls span,
+#header3.controls span {
+	z-index: 2;
 }
 
 header.controls span label {
@@ -506,7 +490,7 @@ nav {
     height:43px;
 	position:fixed;
 	width:100%;
-	z-index:2;
+	z-index:3;
 }
 
 nav a, nav label {
@@ -528,7 +512,7 @@ nav img#logo {
 nav img.icon {
 	position: relative;
 	top:10px;
-	z-index:3;
+	z-index:4;
 	cursor:pointer;
 }
 

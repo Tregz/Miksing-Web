@@ -112,6 +112,7 @@ function ytRequest(id,list){ "use strict"; // jshint ignore:line
 		if (this.readyState===4 && this.status===200) {
 			data = JSON.parse(request.responseText);
 			if (list) { /**/ }
+			
 			else { document.getElementById("media-details").checked = true;
 				document.getElementById("media-save-insert").setAttribute("name", data.items[0].id);
 				var channel = "Channel: "+data.items[0].snippet.channelTitle;
@@ -120,7 +121,7 @@ function ytRequest(id,list){ "use strict"; // jshint ignore:line
 				var released = date.substring(0, date.indexOf('T'));
 				document.getElementById("media-date-insert").textContent = "Released: "+released;
 				document.getElementById("media-date-insert").setAttribute("name", released);
-				document.getElementById("media-name-insert").value = data.items[0].snippet.title; } }
+				document.getElementById("media-call-insert").value = data.items[0].snippet.title; } }
 		else { data = 'error'; } };
 	request.send();
 }

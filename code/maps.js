@@ -3,16 +3,24 @@
  * Created by Jerome Robbins on 18-02-19.
  */ /*jshint esversion: 6 */
 
+var mapReady = false;
+
 var js = document.createElement('script');
 var key = "AIzaSyBjNTscuOcDgc3iMVlQ519mS6yC-2V4px0";
-js.src = "https://maps.googleapis.com/maps/api/js?key="+key+"&callback=area";
+js.src = "https://maps.googleapis.com/maps/api/js?key="+key+"&callback=init"; // +"&callback=area(document.getElementById('map'))"
 var script = document.getElementsByTagName('script')[0];
 script.parentNode.insertBefore(js, script);
 
-function area() { "use strict"; // jshint ignore:line
-	var map = new google.maps.Map(document.getElementById('map'), { zoom: 10, disableDefaultUI: true }); // jshint ignore:line
+function area(div) { "use strict"; // jshint ignore:line
+	if (mapReady) { //alert("map");
+	var map = new google.maps.Map(div, { zoom: 10, disableDefaultUI: true }); // jshint ignore:line
 	fetch('code/gmaps.json').then(res => res.json()).then((out) => { map.setOptions({styles: out});});
 	setTimeout(function () {(find(new google.maps.Geocoder(), map))},1000); // jshint ignore:line
+	} else { setTimeout(function () { area(div); },1000); }
+}
+
+function init() { "use strict";
+	mapReady=true;
 }
 
 function find(geocoder, resultsMap) { "use strict";
