@@ -112,7 +112,6 @@ function ytRequest(id,list){ "use strict"; // jshint ignore:line
 		if (this.readyState===4 && this.status===200) {
 			data = JSON.parse(request.responseText);
 			if (list) { /**/ }
-			
 			else { document.getElementById("media-details").checked = true;
 				document.getElementById("media-save-insert").setAttribute("name", data.items[0].id);
 				var channel = "Channel: "+data.items[0].snippet.channelTitle;

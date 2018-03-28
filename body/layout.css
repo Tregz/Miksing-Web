@@ -13,51 +13,34 @@ a {
 	text-decoration: none;
 }
 
-article a {
-	color:#606;
-	cursor:pointer;
-}
-
 article {
 	background-color: #fff;
 	border: solid 1px #fdd;
 	border-radius:10px;
-	margin-bottom:0px;
-	margin-top:10px;
-	padding:15px;
-	padding-bottom:5px;
+	margin-bottom:10px;
 	opacity:1;
 	overflow:hidden;
 	position: relative;
 	text-align: justify;
 }
 
+header article img.small {
+	margin-right:12px;
+	-webkit-transition: all 333ms ease-out;
+	-moz-transition: all 333ms ease-out;
+	-o-transition: all 333ms ease-out;
+	-ms-transition: all 333ms ease-out;
+	transition: all 333ms ease-out;
+	width:150px;
+}
+
+article a {
+	color:#606;
+	cursor:pointer;
+}
+
 article h3 {
 	padding-bottom:5px;
-}
-
-article input#contact ~ form {
-	height:0;
-	opacity:0;
-	-webkit-transition: all 333ms ease-out;
-	-moz-transition: all 333ms ease-out;
-	-o-transition: all 333ms ease-out;
-	-ms-transition: all 333ms ease-out;
-	transition: all 333ms ease-out;
-	width:100%;
-}
-
-article input#contact:checked ~ form {
-	height:310px;
-	opacity:1;
-	position: relative;
-	top:-20px;
-	display:inline-block;
-	-webkit-transition: all 333ms ease-out;
-	-moz-transition: all 333ms ease-out;
-	-o-transition: all 333ms ease-out;
-	-ms-transition: all 333ms ease-out;
-	transition: all 333ms ease-out;
 }
 
 article p {
@@ -65,18 +48,9 @@ article p {
 	margin-top:5px;
 }
 
-aside {
-	color:#606;
-	padding:5px;
-	padding-left:10px;
-	padding-right:10px;
-	right:0;
-}
-
 aside.expand {
 	position: relative;
 	text-align:right;
-	margin-bottom:-5px;
 	padding-right:0;
 	z-index: 2;
 }
@@ -117,9 +91,9 @@ div.details button.kill {
 }
 
 div.details input {
+	flex: 1;
 	margin-right:10px;
 	padding:10px;
-	flex: 1;
 }
 
 div.details label {
@@ -130,12 +104,6 @@ div.details label {
 	padding:10px;
 	text-align: right;
 	width:75px;
-}
-
-div#map {
-	height:100%;
-	position: absolute;
-	width:100%;
 }
 
 div#media-scan,
@@ -169,44 +137,6 @@ div#media-scan {
 	transition: all 333ms ease-out;
 }
 
-div#profile div#usercard {
-	display:inline-block;
-	position:relative;
-	width:100%;
-}
-
-div#profile form {
-	float:left;
-	width:45%;
-	padding-left:12px;
-}
-
-div#profile form input {
-	background:linear-gradient(to right, #fee 33%, transparent);
-	color:#a06;
-}
-
-img#switch {
-	position:absolute;
-	right:0;
-	bottom:0;
-	width:auto;
-	height:33px;
-	margin-right:18px;
-	margin-bottom:-4px;
-}
-
-div#profile object {
-	position:absolute;
-	right:0;
-}
-
-div#profile object#avatar {
-	width:auto;
-	height:150px;
-	margin-right:12px;
-}
-
 footer {
 	border-top: solid 1px #fcf;
 	color:#606;
@@ -218,6 +148,17 @@ footer {
 footer a {
 	color:#606;
 	font-weight:bold;
+}
+
+form {
+	height:0;
+	opacity:0;
+	-webkit-transition: all 333ms ease-out;
+	-moz-transition: all 333ms ease-out;
+	-o-transition: all 333ms ease-out;
+	-ms-transition: all 333ms ease-out;
+	transition: all 333ms ease-out;
+	width:100%;
 }
 
 form button {
@@ -308,6 +249,25 @@ header input#info:checked ~ div {
 	-o-transition: all 333ms ease-out;
 	-ms-transition: all 333ms ease-out;
 	transition: all 333ms ease-out;
+}
+
+header input#info ~ div article {
+	padding:10px;
+}
+
+header input#info ~ div article img {
+	float:left;
+}
+
+header input#info ~ div article div p {
+	min-height:110px;
+	margin-bottom:20px;
+}
+
+header input#info ~ div article aside {
+	position: absolute;
+	right:15px;
+	margin-top:-20px;
 }
 
 header input#info:checked ~ div article img {
@@ -457,6 +417,18 @@ img.icon {
 }
 
 input[type="radio"], input[type="checkbox"] {display:none;}
+
+input#contact:checked ~ form {
+	height:300px;
+	opacity:1;
+	margin-bottom:10px;
+	position: relative;
+	-webkit-transition: all 333ms ease-out;
+	-moz-transition: all 333ms ease-out;
+	-o-transition: all 333ms ease-out;
+	-ms-transition: all 333ms ease-out;
+	transition: all 333ms ease-out;
+}
 
 input#new-media:not(:checked) ~ div#media-found,
 input#media-details:not(:checked) ~ div#media-found,
@@ -618,10 +590,11 @@ section {
 ul { padding-left:0px; }
 
 #media-chan {
-	position: absolute;
-	top:0;
+	position: relative;
 	font-weight: bold;
 	text-transform: uppercase;
+	top:-18px;
+	left:5px;
 }
 
 #tab1:checked ~ header label:not(.content1) li:hover,
