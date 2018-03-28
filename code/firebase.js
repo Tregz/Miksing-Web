@@ -369,6 +369,8 @@ function load(src) { "use strict";
 				/* [END loginlistener] */
 				/* [START authstatelistener] */
 				firebase.auth().onAuthStateChanged(function(sign) { // jshint ignore:line
+					admin = false;
+					pro = false;
 					items1.innerHTML = "";
 					items2.innerHTML = "";
 					items3.innerHTML = "";
@@ -379,7 +381,6 @@ function load(src) { "use strict";
 					filters3 = [];
 					var insert = document.getElementById("insert");	
 					if (sign) { wired = true; /* START signinorup */
-						pro = false, admin = false;
 						var add = document.createElement("label");
 						add.setAttribute("for","new-media");
 						var icon = document.createElement("img");
@@ -401,19 +402,13 @@ function load(src) { "use strict";
 								uRef.child(uUid).child("date").set(date());
 								uRef.child(uUid).child("kind").set(0); } }).then(function() {
 							uRef.child(uUid).child("join").set(true); // online
-										
 							uRef.child(uUid).once('value').then(function(snap) {
 								if (snap.hasChild("kind")) { switch (snap.val().kind) {
 									case 1: pro = true; // current user is pro
 										break;
 									case 2: admin = true; // current user is admin
 										break; } } }).then(function() { wake("media"); });
-							uRef.once('value').then(function(users) { // Load data of all users
-								users.forEach(function(snap) { var data = user(snap);
-								var node = card(data,dropdown1,undefined,data[KIND],"user");
-								items1.appendChild(node);
-								make(data,0,node.lastChild,"user");
-								bind(snap.key); }); });
+							wake("user");
 						}); /* [END signinorup] */
 					} else { wired = false; /* [START logout] */
 						insert.innerHTML = "";
@@ -421,18 +416,6 @@ function load(src) { "use strict";
 						btSignUp.style.display='inline';
 						bind(uOff); // Offline data
 						wake("media"); }
-					setTimeout(function() { filters3.sort(function(a, b) { return a-b; });
-						pick(list3, dropdown3, "item", "-", "media", undefined, spinner2[lang]); // Spinner title
-						for (var m = 0; m<filters3.length; m++) {
-							pick(list3,dropdown3,"item",filters3[m],"media",undefined,topics[filters3[m]]); }
-						pick(list1, dropdown1, "item", "-", "user", undefined, spinner3[lang]); // Spinner title
-						for (var u = 1; u<kinds.length; u++) {
-							pick(list1,dropdown1,"item",u,"user",undefined,kinds[u]); }
-						/*pick(list2, dropdown2, "item", "-", "playlist", undefined, spinner2[lang]); // Spinner title
-						for (var p = 0; p<filters2.length; p++) {
-							pick(list2,dropdown2,"item",filters2[p],"playlist",undefined,topics[filters2[p]]); } */
-						var found = document.getElementById("media-found"); // Insert media section
-						make(["insert"],undefined,found,"media"); },2000);
 					/* [END logout] */ });
 					/* [END authstatelistener] */ } } };
 	var script = document.getElementsByTagName('script')[0];
@@ -720,10 +703,39 @@ function vibe(snap,user,username) { "use strict";
 function wake(tab) { "use strict";
 	switch(tab) {
 		case "media": tRef.once('value').then(function(snapshot) {
-			snapshot.forEach(function(t) { tube(t, function(data) { 
+			var medias = snapshot.numChildren(), i = 0;
+			snapshot.forEach(function(t) { tube(t, function(data) { i++;
 				var node = card(data,dropdown3,filters3,data[MOOD],"media");
 				items3.appendChild(node);
-				make(data,data[MOOD],node.lastChild,"media"); }); }); });
+				make(data,data[MOOD],node.lastChild,"media");
+				if (i===medias) { filters3.sort(function(a, b) { return a-b; });
+				pick(list3,dropdown3,"item","-","media",undefined,spinner2[lang]); // Spinner title
+				for (var m = 0; m<filters3.length; m++) {
+					pick(list3,dropdown3,"item",filters3[m],"media",undefined,topics[filters3[m]]); }
+				var found = document.getElementById("media-found"); // Insert media section
+				make(["insert"],undefined,found,"media"); } });
+				});
+			});
+			break;
+		case "playlist": 
+			/*pick(list2, dropdown2, "item", "-", "playlist", undefined, spinner2[lang]); // Spinner title
+			for (var p = 0; p<filters2.length; p++) {
+			pick(list2,dropdown2,"item",filters2[p],"playlist",undefined,topics[filters2[p]]); } */
+			break;
+		case "user": 
+			uRef.once('value').then(function(snapshot) { // Load data of all users
+			var users = snapshot.numChildren(), i = 0;
+			snapshot.forEach(function(snap) { i++;
+				var data = user(snap);
+				var node = card(data,dropdown1,undefined,data[KIND],"user");
+				items1.appendChild(node);
+				make(data,0,node.lastChild,"user");
+				bind(snap.key);
+				if (i===users) { 
+					pick(list1,dropdown1,"item","-","user",undefined,spinner3[lang]); // Spinner title
+						for (var u = 1; u<kinds.length; u++) {
+							pick(list1,dropdown1,"item",u,"user",undefined,kinds[u]); } } });
+			});
 			break;
 	}
 }
