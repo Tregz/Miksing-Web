@@ -86,8 +86,7 @@ var tRef; // Database reference for all videos
  * The content is recommended for everyone. */
 var uOff = "rlOUlYo89IUDNgzKELT9F0Yg0rg1";
 var wired = false;
-var pro = false;
-var admin = false;
+var pro, admin;
 var firebaseApp = 'https://www.gstatic.com/firebasejs/4.9.1/firebase-app.js';
 var firebaseAuth = 'https://www.gstatic.com/firebasejs/4.9.1/firebase-auth.js';
 var firebaseData = 'https://www.gstatic.com/firebasejs/4.9.1/firebase-database.js';	
@@ -150,6 +149,7 @@ function card(data,dropdown,filters,idea,tab) { "use strict";
 	var content = document.createElement("div");
 	content.setAttribute("class", "content");  
 	var link = document.createElement("a");
+	link.setAttribute("class","card-link");
 	var href = "#";
 	if (tab==="media") { href = "javascript:mixing('"+data[_KEY]+"')"; } // jshint ignore:line
 	link.setAttribute('href', href);
@@ -192,8 +192,6 @@ function card(data,dropdown,filters,idea,tab) { "use strict";
 			version = data[JOIN];
 			break; }
 	subtitle.textContent = sub;
-	//var infos = document.createElement("div");	
-	//infos.setAttribute("class","infos");
 	/* END: Card's text content */
 	var menu = document.createElement("aside");
 	menu.setAttribute("class","options");
@@ -219,7 +217,9 @@ function card(data,dropdown,filters,idea,tab) { "use strict";
 			menu.appendChild(play);
 			if (!admin && !pro) { pen.style.height = "0"; }
 			break;
-		case "playlist": if (!admin && !pro) { pen.style.height = "0"; }
+		case "playlist": 
+			if (!admin && data[_KEY].substring(0,data[_KEY].indexOf("-"))!==uUid) {
+				pen.style.height = "0";	}
 			break;
 		case "user": if (uUid!==data[_KEY] && !admin) { pen.style.height = "0"; }
 			break; }
@@ -379,6 +379,7 @@ function load(src) { "use strict";
 					filters3 = [];
 					var insert = document.getElementById("insert");	
 					if (sign) { wired = true; /* START signinorup */
+						pro = false, admin = false;
 						var add = document.createElement("label");
 						add.setAttribute("for","new-media");
 						var icon = document.createElement("img");
@@ -400,29 +401,26 @@ function load(src) { "use strict";
 								uRef.child(uUid).child("date").set(date());
 								uRef.child(uUid).child("kind").set(0); } }).then(function() {
 							uRef.child(uUid).child("join").set(true); // online
+										
+							uRef.child(uUid).once('value').then(function(snap) {
+								if (snap.hasChild("kind")) { switch (snap.val().kind) {
+									case 1: pro = true; // current user is pro
+										break;
+									case 2: admin = true; // current user is admin
+										break; } } }).then(function() { wake("media"); });
 							uRef.once('value').then(function(users) { // Load data of all users
 								users.forEach(function(snap) { var data = user(snap);
 								var node = card(data,dropdown1,undefined,data[KIND],"user");
 								items1.appendChild(node);
 								make(data,0,node.lastChild,"user");
 								bind(snap.key); }); });
-							uRef.child(uUid).once('value').then(function(snap) {
-								if (snap.hasChild("kind")) { switch (snap.val().kind) {
-									case 1: pro = true; // current user is pro
-										break;
-									case 2: admin = true; // current user is admin
-										break; } } });
 						}); /* [END signinorup] */
 					} else { wired = false; /* [START logout] */
-						bind(uOff); // Offline data
 						insert.innerHTML = "";
 						btSignIn.textContent="Continue";
-						btSignUp.style.display='inline'; }
-					tRef.once('value').then(function(snapshot) {
-						snapshot.forEach(function(t) { tube(t, function(data) { 
-							var node = card(data,dropdown3,filters3,data[MOOD],"media");
-							items3.appendChild(node);
-							make(data,data[MOOD],node.lastChild,"media"); }); }); });
+						btSignUp.style.display='inline';
+						bind(uOff); // Offline data
+						wake("media"); }
 					setTimeout(function() { filters3.sort(function(a, b) { return a-b; });
 						pick(list3, dropdown3, "item", "-", "media", undefined, spinner2[lang]); // Spinner title
 						for (var m = 0; m<filters3.length; m++) {
@@ -480,7 +478,7 @@ function make(data,mood,node,tab) { "use strict";
 			rows[0] = read(data[CALL],tab+"-call-"+key,"Name","Title");
 			rows[1] = read(data[ICON],tab+"-mood-"+key,"Image","Thumbnail");
 			id = data[_KEY].substring(0,data[_KEY].indexOf("-"));
-			if (id===uUid) { var arrow = document.createElement("img");
+			if (admin || id===uUid) { var arrow = document.createElement("img");
 				arrow.alt = "Arrow Button";
 				arrow.setAttribute("class","switch");
 				arrow.src = "draw/ic_arrow_end.svg";
@@ -496,7 +494,7 @@ function make(data,mood,node,tab) { "use strict";
 			rows[0] = read(data[CALL],tab+"-call-"+key,"Name","Pseudonym");
 			rows[1] = read(data[HOME],tab+"-home-"+key,"Home","Location");
 			rows[2] = read(data[ICON],tab+"-face-"+key,"Face","Avatar");
-			if (data[_KEY]===uUid && drawable!==undefined) {
+			if (admin || data[_KEY]===uUid && drawable!==undefined) {
 				var img = document.createElement("img");
 				img.alt = "Arrow Button";
 				img.setAttribute("class","switch");
@@ -717,4 +715,15 @@ function vibe(snap,user,username) { "use strict";
 	data[DATE] = snap.val().date.substring(0,4) || "YYYY-MM-DD";
 	data[ICON] = snap.val().icon || 0;
 	return data;
+}
+
+function wake(tab) { "use strict";
+	switch(tab) {
+		case "media": tRef.once('value').then(function(snapshot) {
+			snapshot.forEach(function(t) { tube(t, function(data) { 
+				var node = card(data,dropdown3,filters3,data[MOOD],"media");
+				items3.appendChild(node);
+				make(data,data[MOOD],node.lastChild,"media"); }); }); });
+			break;
+	}
 }

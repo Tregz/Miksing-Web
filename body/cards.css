@@ -43,7 +43,7 @@ div.card-main embed {
 	margin-left:10px;
 }
 
-div.card-main a { 
+div.card-main a.card-link { 
 	margin-left:12px;
 	position: absolute;
 	top:10px;
@@ -59,15 +59,15 @@ div.card-main div.content {
 }
 
 div.frame {
-	overflow: hidden;
+	overflow:hidden;
 	width:150px;
 }
 
-div.frame.media img.small {
+div.frame.media img {
 	margin-top:15px;
 }
 
-div.frame.user img.small{
+div.frame.user img {
 	bottom:6px;
 	height:150px;
 	left:50%;
@@ -81,7 +81,7 @@ div.linear-opacity {
 	border-bottom:solid 1px transparent;
 	border-image:linear-gradient(to right, #fdd 25%, transparent 67%);
 	border-image-slice: 1;
-	height:100px;
+	height:112px;
 	position:absolute;
 	top:0;
 	width:75%;
@@ -92,12 +92,16 @@ div.map {
 	height:140px;
 }
 
+div.map div div a[target='_blank'] {
+	margin-left:0;
+}
+
 div.map img[src*='google_white'] {
 	background:#a06;
 	border-radius: 5px;
-	top:12px !important;
 	box-shadow: 3px 4px #fc0;
 	left:-6px !important;
+	top:-3px !important;
 }
 
 div.media-editing {
@@ -120,11 +124,33 @@ img.switch {
 }
 
 @media only screen and (max-width: 35em) {
-	article object.small
-	article img.small {
+	div.frame {
 		margin-bottom:0px;
-		width:50px;
+		height:90px;
+		width:90px;
 	}
+	div.frame.media img,
+	div.frame.playlist img,
+	div.frame.user img {
+		margin:10px;
+		height:70px;
+		width:70px;
+	}
+	div.frame.user img,
+	div.frame.media img {
+		border-radius:35px;
+	}
+	div.frame.media img {
+		bottom:0;
+		top:10px;
+	}
+	div.frame.user img {
+		margin-left:0;
+		margin-right:0;
+		top:0;
+	}
+	div.card-main a.card-link {
+		margin-left:0; }
 }
 
 #input-media-item--:checked ~ header span:not(:hover) label:not(.label-media--),
