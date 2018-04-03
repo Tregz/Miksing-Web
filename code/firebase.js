@@ -24,13 +24,15 @@ var txPassword = document.getElementById("password");
 var dropdown1 = document.getElementById("dropdown1"); // Spinner of kinds of users
 var dropdown2 = document.getElementById("dropdown2"); // Spinner of kinds of playlists
 var dropdown3 = document.getElementById("dropdown3"); // Spinner of kinds of medias
-var filters2, filters3; // Index numbers for the spinner's list of kinds
+var filters1, filters2, // selected item's list
+	filters3; // Index numbers for the spinner's list of kinds
 var items1 = document.getElementById('items1');
 var items2 = document.getElementById('items2');
 var items3 = document.getElementById('items3');
 var list1 = document.getElementById("list1");
 //var list2 = document.getElementById("list2");
 var list3 = document.getElementById("list3");
+var page = "media"; // Current tab
 var topics = /*0*/ ["Undefined",
 			 /*1*/ "Apero-Soft",
              /*2*/ "Bistro-Rock",
@@ -69,6 +71,8 @@ var JOIN = 10; // Online state
 var KIND = 11; // Access rules
 //var LANG = 12; // Language
 var MOOD = 13; // Music's main genre
+var PLAY = 17;
+var SEED = 19; 
 
 // Firebase
 var config = {
@@ -79,12 +83,11 @@ var config = {
     storageBucket: "miksing-3bb36.appspot.com",
     messagingSenderId: "616604964223" };
 var firebaseReady, authReady, dataReady; // Booleans
-var uUid; // String id of current user
-var uRef; // Database reference for all users
 var tRef; // Database reference for all videos
+var uRef; // Database reference for all users
+var uUid; // String id of current user
 /* Readable offline data from pro user named Tremenz.
  * The content is recommended for everyone. */
-var uOff = "rlOUlYo89IUDNgzKELT9F0Yg0rg1";
 var wired = false;
 var pro, admin;
 var firebaseApp = 'https://www.gstatic.com/firebasejs/4.9.1/firebase-app.js';
@@ -94,17 +97,7 @@ load(firebaseApp); // Initialize Google's Firebase
 load(firebaseAuth); // Initialize Firebase's authentication
 load(firebaseData); // Initialize Firebase's database
 
-// User's playlists
-function bind(user) { "use strict"; // load user's data
-	uRef.child(user).once('value').then(function(snapshot) { // user
-		snapshot.child("play").forEach(function(list) { // user's playlists
-			var data = vibe(list,user,snapshot.val().call);
-			var node = card(data,dropdown2,filters2,0,"playlist");
-			items2.appendChild(node);
-			make(data,0,node.lastChild,"playlist");
-		});
-	});
-}
+/**/
 
 // Card view model for any item
 function card(data,dropdown,filters,idea,tab) { "use strict";
@@ -113,7 +106,7 @@ function card(data,dropdown,filters,idea,tab) { "use strict";
 	var aside = document.createElement("aside"); // Hashtags
 	aside.setAttribute("class", "hashtags");
 	var year = data[DATE].substring(0,4);
-	if (tab!=="user" && !filters.includes(idea)) { 
+	if (tab==="media" && !filters.includes(idea)) { 
 		filters[filters.length] = idea; }
 	switch(tab) {
 		case "media": var topic = topics[idea].toLowerCase();
@@ -148,11 +141,76 @@ function card(data,dropdown,filters,idea,tab) { "use strict";
 	/* START: Card's text content */   
 	var content = document.createElement("div");
 	content.setAttribute("class", "content");  
-	var link = document.createElement("a");
+	var link;
+	switch(tab) {
+		case "media":
+			link = document.createElement("a");
+			var href = "#";
+			href = "javascript:mixing('"+data[_KEY]+"')"; // jshint ignore:line
+			break;
+		case "playlist":
+			link = document.createElement("div");
+			link.onmouseover = link.style.cursor = "pointer";
+			link.onclick = function() { filters2 = [];
+				var playlist = document.createElement("header");
+				playlist.setAttribute("class","controls");
+				var left = document.createElement("div");
+				left.setAttribute("class","selection left");
+				var checkbox = document.createElement("input");
+				checkbox.type = "checkbox";
+				checkbox.setAttribute("class","selection");
+				checkbox.checked = true;
+				checkbox.addEventListener( 'change', function() {
+    				if(!this.checked) { page = "media";
+						filters2 = [];
+						wake(page); } });					   
+				left.appendChild(checkbox);
+				var label = document.createElement("label");
+				label.textContent = data[CALL];
+				left.appendChild(label);
+				playlist.appendChild(left);
+				var items = document.getElementById("items3");
+				for (var i=0; i<data[SEED].length; i++) {
+					filters2[filters2.length] = data[SEED][i]; }
+				document.getElementById("tab3").checked = true;
+				page = "media";
+				wake(page); 
+				items.insertBefore(playlist,items.childNodes[0]);
+			};
+			break;
+		case "user": 
+			link = document.createElement("div");
+			link.onmouseover = link.style.cursor = "pointer";
+			link.onclick = function() { filters1 = [];
+				var enthusiast = document.createElement("header");
+				enthusiast.setAttribute("class","controls");
+				var left = document.createElement("div");
+				left.setAttribute("class","selection left");
+				var checkbox = document.createElement("input");
+				checkbox.type = "checkbox";
+				checkbox.setAttribute("class","selection");
+				checkbox.checked = true;
+				checkbox.addEventListener( 'change', function() {
+    				if(!this.checked) { page = "playlist";
+						filters1 = [];
+						wake(page); } });					   
+				left.appendChild(checkbox);
+				var label = document.createElement("label");
+				label.textContent = data[CALL];
+				left.appendChild(label);
+				enthusiast.appendChild(left);
+				var items = document.getElementById("items2");
+				for (var i=0; i<data[PLAY].length; i++) {
+					filters1[filters1.length] = data[PLAY][i]; }
+				if (filters1.length>0) {
+					document.getElementById("tab2").checked = true;
+					page = "playlist";
+					wake(page); 
+					items.insertBefore(enthusiast,items.childNodes[0]);
+				} else { alert("User does not have any playlist"); }
+			};
+			break; }
 	link.setAttribute("class","card-link");
-	var href = "#";
-	if (tab==="media") { href = "javascript:mixing('"+data[_KEY]+"')"; } // jshint ignore:line
-	link.setAttribute('href', href);
 	var title = document.createElement("h3");
 	title.textContent = data[CALL];
 	var subtitle = document.createElement("h4");
@@ -266,6 +324,19 @@ function good(courriel, password) { "use strict";
 	return true;
 }
 
+// Collapsed form for new items
+function hide(page) { "use strict";
+	var add = document.createElement("label");
+	add.setAttribute("for","new-"+page);
+	var icon = document.createElement("img");
+	icon.src = "draw/ic_add.svg";
+	icon.setAttribute("class", "icon");
+	icon.alt = "Add icon";
+	add.appendChild(icon);
+	add.appendChild(document.createTextNode("Add "+page));
+	document.getElementById("insert-"+page).appendChild(add);
+}
+
 // Add item
 function item(type) { "use strict"; // jshint ignore:line
 	var link = "";
@@ -281,6 +352,9 @@ function item(type) { "use strict"; // jshint ignore:line
 			else { ytRequest(id,list); } }); // jshint ignore:line
 	} else { alert("Video must be hosted by YouTube."); }			
 }
+
+// unused yet
+// function jump() { "use strict"; }
 
 // Remove or update item
 function kill(id, container, tab, update) { "use strict";
@@ -309,7 +383,7 @@ function kill(id, container, tab, update) { "use strict";
 					var list = snapshot.child("play").child(update);
 					var auth = snapshot.val().call;
 					data = vibe(list,maker,auth);					
-					node = card(data,dropdown2,filters2,0,tab);
+					node = card(data,dropdown2,undefined,0,tab);
 					container.parentNode.parentNode.replaceChild(node,container.parentNode);
 					make(data,0,node.lastChild,tab); });
 				break;
@@ -369,27 +443,26 @@ function load(src) { "use strict";
 				/* [END loginlistener] */
 				/* [START authstatelistener] */
 				firebase.auth().onAuthStateChanged(function(sign) { // jshint ignore:line
+					// reset access authorisations
 					admin = false;
 					pro = false;
-					items1.innerHTML = "";
-					items2.innerHTML = "";
-					items3.innerHTML = "";
-					dropdown1.innerHTML = "";
-					dropdown2.innerHTML = "";
-					dropdown3.innerHTML = "";
-					filters2 = [];
-					filters3 = [];
-					var insert = document.getElementById("insert");	
+					// reset current data
+					dropdown1.innerHTML = ""; // user types
+					dropdown2.innerHTML = ""; // unused.
+					dropdown3.innerHTML = ""; // menu item: topic spinners
+					filters1 = []; // selected users
+					filters2 = []; // selected playlists
+					filters3 = []; // media topics from list of items
+					items1.innerHTML = ""; // users
+					items2.innerHTML = ""; // playlists
+					items3.innerHTML = ""; // medias
 					if (sign) { wired = true; /* START signinorup */
-						var add = document.createElement("label");
-						add.setAttribute("for","new-media");
-						var icon = document.createElement("img");
-						icon.src = "draw/ic_add.svg";
-						icon.setAttribute("class", "icon");
-						icon.alt = "Add icon";
-						add.appendChild(icon);
-						add.appendChild(document.createTextNode("Add media"));
-						insert.appendChild(add);
+						hide("media");
+						hide("playlist");
+						var found = document.getElementById("media-found"); // Insert media section
+						make(["insert"],undefined,found,"media");
+						var add = document.getElementById("add-playlist"); // Insert media section
+						make(["insert"],undefined,add,"playlist");
 						btSignIn.textContent="Sign out";
 						btSignUp.style.display='none';
 						//document.getElementById("user").checked = true;
@@ -407,17 +480,34 @@ function load(src) { "use strict";
 									case 1: pro = true; // current user is pro
 										break;
 									case 2: admin = true; // current user is admin
-										break; } } }).then(function() { wake("media"); });
-							wake("user");
+										break; } } }).then(function() { wake(page); });
 						}); /* [END signinorup] */
 					} else { wired = false; /* [START logout] */
-						insert.innerHTML = "";
 						btSignIn.textContent="Continue";
 						btSignUp.style.display='inline';
-						bind(uOff); // Offline data
-						wake("media"); }
+						/* remove menu items: add playlist/media */
+						document.getElementById("insert-playlist").innerHTML = "";
+						document.getElementById("insert-media").innerHTML = "";
+						/* Set current user to pro user Tremenz
+						 * who has readable data for unregistered user */
+						uUid = "rlOUlYo89IUDNgzKELT9F0Yg0rg1";
+						wake(page); }
 					/* [END logout] */ });
-					/* [END authstatelistener] */ } } };
+				/* [END authstatelistener] */
+				/* [START pagelistener] */
+				var input1 = document.getElementById("tab1");
+				var input2 = document.getElementById("tab2");
+				var input3 = document.getElementById("tab3");
+				input1.addEventListener( 'change', function() {
+					if(this.checked) { page = "user";
+						wake(page); } });
+				input2.addEventListener( 'change', function() {
+					if(this.checked) { page = "playlist";
+						wake(page); } });
+				input3.addEventListener( 'change', function() {
+    				if(this.checked) { page = "media";
+						wake(page); } });
+				/* [END pagelistener] */ } } };
 	var script = document.getElementsByTagName('script')[0];
 	script.parentNode.insertBefore(js, script);
 }
@@ -426,13 +516,14 @@ function make(data,mood,node,tab) { "use strict";
 	var id = data[_KEY], key = data[_KEY];
 	var header = document.createElement("header");
 	header.setAttribute("class","controls");
-	node.appendChild(header);
 	var since;
 	switch (tab) {
 		case "media": since = ["Released: ", "Publication: "];
+			node.appendChild(header);
 			break;
 		case "playlist": break;
 		case "user": since = ["Registered: ", "Inscription: "];
+			node.appendChild(header);
 			break; }
 	if (tab!=="playlist") {
 	var released = document.createElement("label");
@@ -497,7 +588,7 @@ function make(data,mood,node,tab) { "use strict";
 		remove.setAttribute("class","kill");
 		remove.textContent = "Trash";
 		rows[rows.length-2].appendChild(remove); }
-	if (admin || id===uUid) {
+	if (key==="insert" || admin || id===uUid) {
 		var update = document.createElement("button");
 		update.id = tab+"-save-"+key;
 		update.onclick = function() { save(node,key,tab); };
@@ -506,13 +597,15 @@ function make(data,mood,node,tab) { "use strict";
 	for (var i=0; i<rows.length; i++) { node.appendChild(rows[i]); }						   
 }
 
+// node
+
 // Expandable editor for pro users and admins
 function over(div, embed, tab) { "use strict";
 	var height;
 	switch (tab) {
 		case "media": height = "390px";
 			break;
-		case "playlist": height = "150px";
+		case "playlist": height = "100px";
 			break;
 		case "user": height = "200px";
 			break; }
@@ -548,6 +641,8 @@ function pick(container,dropdown,id,mood,section,selected,text) { "use strict";
 	dropdown.appendChild(label);
 }
 
+// quit
+
 // Editable item details
 function read(content, id, name, placeholder) { "use strict";
 	var div = document.createElement("div");
@@ -566,13 +661,12 @@ function read(content, id, name, placeholder) { "use strict";
 }
 
 function save(container, id, tab) { "use strict";
-	container.style.height = "0";
-	container.style.opacity = "0";
 	switch(tab) {
 		case "media": var key = id; // editing video's id if not inserting
 			if (id==="insert") { // get inserting video's id and exit form
 				var insert = document.getElementById(tab+"-save-insert");
 				key = insert.getAttribute("name");
+				document.getElementById("new-"+tab).checked = false;
 				document.getElementById(tab+"-details").checked = false; }
 			else { container.style.height = "0"; // exit editing
 				container.style.opacity = "0"; }
@@ -586,8 +680,8 @@ function save(container, id, tab) { "use strict";
 			if (call.length>0) { video.child("call").set(call); } 
 			if (id==="insert") { // Date is fixed for good when inserted
 				var released = document.getElementById(tab+"-date-"+id);
-				var date = released.getAttribute("name");
-			if (date.length>0) { video.child("date").set(date); } }
+				var calendar = released.getAttribute("name");
+			if (calendar.length>0) { video.child("date").set(calendar); } }
 			var edit = document.getElementById(tab+"-edit-"+id).value;
 			if (edit.length>0) { video.child("edit").set(edit); }
 			var feat = document.getElementById(tab+"-feat-"+id).value;
@@ -608,7 +702,7 @@ function save(container, id, tab) { "use strict";
 			if (id==="insert") { var topic = topics[mood];
 				if (topic.includes("-")) { // remove descriptive chars
 					topic.substring(0,topic.indexOf("-")); }
-				var list = uRef.child(uUid).child("vids").child(topic);
+				var list = uRef.child(uUid).child("play").child(topic);
 				list.child("kind").set("YouTube"); // only 1 kind, yet
 				list.child("seed").child(key).set(true);
 				/* [END userplaylist] */
@@ -618,14 +712,18 @@ function save(container, id, tab) { "use strict";
 					make(data,data[MOOD],node.lastChild,"media"); }); });
 			} else { kill(key,container,tab,"update"); }
 			break;
-		case "playlist":
-			var user = id.substring(0,id.indexOf("-"));
-			var name = id.replace(user+"-", "");
+		case "playlist": var user, name, rename = "";
+			if (id==="insert") { user = uUid;
+				name = document.getElementById(tab+"-call-"+id).value;
+				document.getElementById("new-"+tab).checked = false; }
+			else { user = id.substring(0,id.indexOf("-"));
+				name = id.replace(user+"-", "");
+				rename = document.getElementById(tab+"-call-"+id).value;
+				container.style.height = "0"; // exit editing
+				container.style.opacity = "0"; }
+			var icon = document.getElementById(tab+"-mood-"+id).value;
 			// The playlist ref is the list's name within the user's data
 			var playlist = uRef.child(user).child("play").child(name);
-			var icon = document.getElementById(tab+"-mood-"+id).value;
-			playlist.child("icon").set(icon);
-			var rename = document.getElementById(tab+"-call-"+id).value;
 			if (rename.length>0 && rename!==name) { /* [START moving] */
 				var move = uRef.child(user).child("play").child(rename);
 				playlist.once('value').then(function(snapshot) {
@@ -633,18 +731,28 @@ function save(container, id, tab) { "use strict";
 						move.child("date").set(snapshot.val().date); }
 					if (snapshot.hasChild("feed")) { // followers
 						snapshot.child("feed").forEach(function(snap) {
-							move.child("feed")
-								.child(snap.key).set(true); }); }
-					if (snapshot.hasChild("icon")) {
-						move.child("icon").set(snapshot.val().icon); }
+							move.child("feed").child(snap.key).set(true); }); }
+					move.child("icon").set(icon);
 					if (snapshot.hasChild("seed")) {
 						snapshot.child("seed").child("tube")
 							.forEach(function(snap) { move.child("seed")
 							.child("tube").child(snap.key).set(true); });
-						kill(id,container,tab,rename); } });
-			} /* [END moving] */
+						kill(id,container,tab,rename); } }); /* [END moving] */
+			} else { playlist.child("icon").set(icon);
+				if (id==="insert") { var username;
+					playlist.child("date").set(date());
+					uRef.child(uUid).once('value').then(function(snap) {
+						username = snap.val().call; }).then(function() {
+						playlist.once('value').then(function(list) {
+							var data = vibe(list,user,username);
+							var node = card(data,dropdown2,undefined,0,"playlist");
+							items2.appendChild(node);
+							make(data,0,node.lastChild,"playlist"); }); });
+			} }
 			break;
 		case "user": 
+			container.style.height = "0"; // exit editing
+			container.style.opacity = "0";
 			var nick = document.getElementById(tab+"-call-"+id).value;
 			var area = document.getElementById(tab+"-home-"+id).value;
 			var face = document.getElementById(tab+"-face-"+id).value;
@@ -687,6 +795,13 @@ function user(snap) { "use strict";
 		if (online) { data[JOIN] = "Online"; }
 		else { data[JOIN] = "Offline"; } }
 	data[KIND] = snap.val().kind || 0;
+	data[PLAY] = [];
+	if (snap.hasChild("play")) { 
+		snap.child("play").forEach(function(play){
+			data[PLAY][data[PLAY].length] = snap.key+"-"+play.key;
+			//alert(snap.key+"-"+play.key);
+		});
+	}			 
 	return data;		 
 }
 
@@ -695,34 +810,60 @@ function vibe(snap,user,username) { "use strict";
 	var data = [user+"-"+snap.key];
 	data[AUTH] = username;
 	data[CALL] = snap.key;
-	data[DATE] = snap.val().date.substring(0,4) || "YYYY-MM-DD";
+	if (snap.hasChild("date")) {
+		data[DATE] = snap.val().date.substring(0,4); }
+	else { data[DATE] = "YYYY"; }
 	data[ICON] = snap.val().icon || 0;
+	var videos = [];
+								   
+	snap.child("seed").child("tube").forEach(function(seed){
+		videos[videos.length] = seed.key; });
+	data[SEED] = videos;
 	return data;
 }
 
 function wake(tab) { "use strict";
 	switch(tab) {
-		case "media": tRef.once('value').then(function(snapshot) {
+		case "media":
+			items3.innerHTML = "";
+			dropdown3.innerHTML = "";
+			filters3 = [];
+			tRef.once('value').then(function(snapshot) {
 			var medias = snapshot.numChildren(), i = 0;
 			snapshot.forEach(function(t) { tube(t, function(data) { i++;
-				var node = card(data,dropdown3,filters3,data[MOOD],"media");
-				items3.appendChild(node);
-				make(data,data[MOOD],node.lastChild,"media");
+				if (filters2.length===0 || filters2.includes(data[_KEY])) {
+					var node = card(data,dropdown3,filters3,data[MOOD],"media");
+					items3.appendChild(node);
+					make(data,data[MOOD],node.lastChild,"media"); }
 				if (i===medias) { filters3.sort(function(a, b) { return a-b; });
 				pick(list3,dropdown3,"item","-","media",undefined,spinner2[lang]); // Spinner title
 				for (var m = 0; m<filters3.length; m++) {
-					pick(list3,dropdown3,"item",filters3[m],"media",undefined,topics[filters3[m]]); }
-				var found = document.getElementById("media-found"); // Insert media section
-				make(["insert"],undefined,found,"media"); } });
+				pick(list3,dropdown3,"item",filters3[m],"media",undefined,topics[filters3[m]]); } } });
 				});
 			});
 			break;
-		case "playlist": 
-			/*pick(list2, dropdown2, "item", "-", "playlist", undefined, spinner2[lang]); // Spinner title
-			for (var p = 0; p<filters2.length; p++) {
-			pick(list2,dropdown2,"item",filters2[p],"playlist",undefined,topics[filters2[p]]); } */
+		case "playlist": // User's playlists
+			items2.innerHTML = "";
+			dropdown2.innerHTML = "";
+			uRef.once('value').then(function(users) {
+				//var population = users.numChildren(), i = 0;
+				users.forEach(function(snap) { //i++;
+					snap.child("play").forEach(function(list) { // user's playlists
+						var data = vibe(list,snap.key,snap.val().call);
+						if (filters1.length===0 || filters1.includes(data[_KEY])) {
+							var node = card(data,dropdown2,undefined,0,"playlist");
+							items2.appendChild(node);
+							make(data,0,node.lastChild,"playlist"); } });
+					/* if... * ...no dropdown yet
+					pick(list2, dropdown2, "item", "-", "playlist", undefined, spinner2[lang]); // Spinner title
+					for (var p = 0; p<filters2.length; p++) {
+					pick(list2,dropdown2,"item",filters2[p],"playlist",undefined,topics[filters2[p]]); } */
+				});
+			});
 			break;
 		case "user": 
+			items1.innerHTML = "";
+			dropdown1.innerHTML = "";
 			uRef.once('value').then(function(snapshot) { // Load data of all users
 			var users = snapshot.numChildren(), i = 0;
 			snapshot.forEach(function(snap) { i++;
@@ -730,7 +871,7 @@ function wake(tab) { "use strict";
 				var node = card(data,dropdown1,undefined,data[KIND],"user");
 				items1.appendChild(node);
 				make(data,0,node.lastChild,"user");
-				bind(snap.key);
+				wake("playlist",snap.key);
 				if (i===users) { 
 					pick(list1,dropdown1,"item","-","user",undefined,spinner3[lang]); // Spinner title
 						for (var u = 1; u<kinds.length; u++) {

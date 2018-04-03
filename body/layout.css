@@ -416,7 +416,7 @@ img.icon {
 	width:auto;
 }
 
-input[type="radio"], input[type="checkbox"] {display:none;}
+input[type="radio"], input[type="checkbox"]:not(.selection) {display:none;}
 
 input#contact:checked ~ form {
 	height:300px;
@@ -430,6 +430,7 @@ input#contact:checked ~ form {
 	transition: all 333ms ease-out;
 }
 
+input#new-playlist:not(:checked) ~ div#add-playlist,
 input#new-media:not(:checked) ~ div#media-found,
 input#media-details:not(:checked) ~ div#media-found,
 input#new-media:not(:checked) ~ div#media-scan,
