@@ -9,6 +9,7 @@ var language = document.getElementsByTagName("html")[0].getAttribute("lang");
 if (language==="en") { lang = 0; }
 else if (language==="fr") { lang = 1; }
 var from = ["by", "par"]; // Audio remixer
+var plus = ["Insert", "Insérer"]; // Audio remixer
 var post = ["video edit by", "edit vidéo par"]; // When video was re-edited in post-prod
 var spinner1 = ["Undefined genre", "Genre non-défini"]; // Spinner's default text
 var spinner2 = ["All music genres", "Tous genres musicaux"]; // Spinner's default text
@@ -33,6 +34,7 @@ var list1 = document.getElementById("list1");
 //var list2 = document.getElementById("list2");
 var list3 = document.getElementById("list3");
 var page = "media"; // Current tab
+var pages = ["user","playlist","media"];
 var topics = /*0*/ ["Undefined",
 			 /*1*/ "Apero-Soft",
              /*2*/ "Bistro-Rock",
@@ -56,22 +58,30 @@ var moods = [ // Icons for topics
             /*8*/ "ic_radio",
             /*9*/ "ic_mysterious"];
 
-// Ref for position in array of strings about items
-var _KEY = 0; // Item id
-var AUTH = 1; // Media's author/ User's authentication email
-var BEAT = 2; // Media's producer/DJ/remixer
-var CALL = 3; // User's name / Media's title
-var DATE = 4; // Release/Registration date YYYY-MM-DD
-var EDIT = 5; // Media's mix version
-var FEAT = 6; // Media's collabs
-var GEEK = 7; // Video's editor
-var HOME = 8; // User's location / Media's label
-var ICON = 9; // Item's image
-var JOIN = 10; // Online state
+// Ref for position in item's data array
+// Strings
+var _KEY = 0;  // Item id
+var AUTH = 1;  // Media's author/ User's authentication email
+var BORN = 2;  // Media's release date / User's anniversary
+var CALL = 3;  // User's name / Media's title
+var DATE = 4;  // Registration date YYYY-MM-DD
+var EDIT = 5;  // Media's mix version / User's gender
+var FEAT = 6;  // Media's collabs
+var GEEK = 7;  // Video's editor
+var HOME = 8;  // User's location / Media's label
+var ICON = 9;  // Item's image
+var JOCK = 10; // Media's producer/DJ/remixer
+// Integers
 var KIND = 11; // Access rules
-//var LANG = 12; // Language
+var LANG = 12; // Language
 var MOOD = 13; // Music's main genre
-var PLAY = 17;
+var NICE = 14;
+// Booleans
+var OMNI = 15;
+var PLUG = 16;
+// Arrays
+var QUID = 17;
+var ROOM = 18;
 var SEED = 19; 
 
 // Firebase
@@ -82,7 +92,7 @@ var config = {
     projectId: "miksing-3bb36",
     storageBucket: "miksing-3bb36.appspot.com",
     messagingSenderId: "616604964223" };
-var firebaseReady, authReady, dataReady; // Booleans
+var firebaseReady, authReady, dataReady, storageReady; // Booleans
 var tRef; // Database reference for all videos
 var uRef; // Database reference for all users
 var uUid; // String id of current user
@@ -90,14 +100,80 @@ var uUid; // String id of current user
  * The content is recommended for everyone. */
 var wired = false;
 var pro, admin;
-var firebaseApp = 'https://www.gstatic.com/firebasejs/4.9.1/firebase-app.js';
-var firebaseAuth = 'https://www.gstatic.com/firebasejs/4.9.1/firebase-auth.js';
-var firebaseData = 'https://www.gstatic.com/firebasejs/4.9.1/firebase-database.js';	
+var firebasejs = 'https://www.gstatic.com/firebasejs/4.9.1/firebase-';
+var firebaseApp = firebasejs+'app.js';
+var firebaseAuth = firebasejs+'auth.js';
+var firebaseData = firebasejs+'database.js';	
+var firebaseStock = firebasejs+'storage.js';
 load(firebaseApp); // Initialize Google's Firebase 
 load(firebaseAuth); // Initialize Firebase's authentication
 load(firebaseData); // Initialize Firebase's database
+load(firebaseStock); // Initialize Firebase's storage
+var storageRef;
 
-/**/
+function arch() { "use strict";
+	var head = document.createElement("header");
+	var left = document.createElement("div");
+	var main = document.createElement("div");
+	var side = document.createElement("div");
+	head.setAttribute("class","details");
+	left.setAttribute("class","left");
+	main.setAttribute("class","main");
+	side.setAttribute("class","side");
+	head.appendChild(left);
+	head.appendChild(main);
+	head.appendChild(side);
+	return [head,left,main,side];
+}
+
+// Medias of playlist
+function bill(div, embed, id, tab) { "use strict";
+	div.setAttribute("class","editing");
+	embed.alt = "Insert into list";
+	embed.src = "draw/ic_insert.svg";
+	var rows;						
+	uRef.child(uUid).once('value').then(function(current) { switch(tab) {
+		case "media": if (current.hasChild("seed")) {
+			current.child("seed").forEach(function(snap) {
+				var box = document.createElement("input");
+				box.type = "checkbox";
+				box.setAttribute("class","selection");
+				var channel = uRef.child(uUid).child("seed")
+					.child(snap.key).child("seed").child("tube");
+				channel.once('value').then(function(chan) {
+					if (chan.hasChild(id)) { box.checked = true; }
+					box.addEventListener( 'change', function() {
+						if(this.checked) { channel.child(id).set(true); }
+						else { channel.child(id).remove(); } }); });
+				var list = document.createTextNode(snap.val().call);
+				var head = arch();
+				head[2].appendChild(box);
+				head[2].appendChild(list);
+				div.appendChild(head[0]);	 });
+				rows = current.child("seed").numChildren();
+				embed.onload = function() { edit(div,embed,rows,tab); }; }
+			break;
+		case "playlist":
+			var maker = id.substring(0,id.indexOf("-"));
+			var title = id.replace(maker+"-", "");
+			if (!current.hasChild("seed") || (current.hasChild("seed") &&
+				!current.child("seed").hasChild(title))) { 
+				uRef.child(maker).child("seed").child(title)
+					.child("seed").child("tube").once('value').then(function(seed) {
+					rows = seed.numChildren();
+					seed.forEach(function(snap) {
+						tRef.child(snap.key).once('value').then(function(t) {
+							var link = document.createElement("div");
+							link.onmouseover = link.style.cursor = "pointer";
+							link.textContent = t.val().call + " ";
+							var head = arch();
+							head[2].appendChild(link);
+							div.appendChild(head[0]); }); });
+					embed.onload = function() {
+						edit(div,embed,rows,tab); }; });
+			} else { embed.style.display = "none"; }
+			break; } });
+}
 
 // Card view model for any item
 function card(data,dropdown,filters,idea,tab) { "use strict";
@@ -145,70 +221,31 @@ function card(data,dropdown,filters,idea,tab) { "use strict";
 	switch(tab) {
 		case "media":
 			link = document.createElement("a");
-			var href = "#";
-			href = "javascript:mixing('"+data[_KEY]+"')"; // jshint ignore:line
+			link.href = "javascript:mixing('"+data[_KEY]+"');"; // jshint ignore:line
 			break;
 		case "playlist":
 			link = document.createElement("div");
 			link.onmouseover = link.style.cursor = "pointer";
 			link.onclick = function() { filters2 = [];
-				var playlist = document.createElement("header");
-				playlist.setAttribute("class","controls");
-				var left = document.createElement("div");
-				left.setAttribute("class","selection left");
-				var checkbox = document.createElement("input");
-				checkbox.type = "checkbox";
-				checkbox.setAttribute("class","selection");
-				checkbox.checked = true;
-				checkbox.addEventListener( 'change', function() {
-    				if(!this.checked) { page = "media";
-						filters2 = [];
-						wake(page); } });					   
-				left.appendChild(checkbox);
-				var label = document.createElement("label");
-				label.textContent = data[CALL];
-				left.appendChild(label);
-				playlist.appendChild(left);
 				var items = document.getElementById("items3");
 				for (var i=0; i<data[SEED].length; i++) {
 					filters2[filters2.length] = data[SEED][i]; }
 				document.getElementById("tab3").checked = true;
-				page = "media";
-				wake(page); 
-				items.insertBefore(playlist,items.childNodes[0]);
-			};
+				wake(pages[2]); 
+				items.insertBefore(nail(data[CALL],2),items.childNodes[0]); };
 			break;
 		case "user": 
 			link = document.createElement("div");
 			link.onmouseover = link.style.cursor = "pointer";
 			link.onclick = function() { filters1 = [];
-				var enthusiast = document.createElement("header");
-				enthusiast.setAttribute("class","controls");
-				var left = document.createElement("div");
-				left.setAttribute("class","selection left");
-				var checkbox = document.createElement("input");
-				checkbox.type = "checkbox";
-				checkbox.setAttribute("class","selection");
-				checkbox.checked = true;
-				checkbox.addEventListener( 'change', function() {
-    				if(!this.checked) { page = "playlist";
-						filters1 = [];
-						wake(page); } });					   
-				left.appendChild(checkbox);
-				var label = document.createElement("label");
-				label.textContent = data[CALL];
-				left.appendChild(label);
-				enthusiast.appendChild(left);
 				var items = document.getElementById("items2");
-				for (var i=0; i<data[PLAY].length; i++) {
-					filters1[filters1.length] = data[PLAY][i]; }
+				for (var i=0; i<data[SEED].length; i++) {
+					filters1[filters1.length] = data[SEED][i]; }
 				if (filters1.length>0) {
 					document.getElementById("tab2").checked = true;
-					page = "playlist";
-					wake(page); 
-					items.insertBefore(enthusiast,items.childNodes[0]);
-				} else { alert("User does not have any playlist"); }
-			};
+					wake(pages[1]); 
+					items.insertBefore(nail(data[CALL],1),items.childNodes[0]);
+				} else { alert("User does not have any playlist"); } };
 			break; }
 	link.setAttribute("class","card-link");
 	var title = document.createElement("h3");
@@ -221,9 +258,9 @@ function card(data,dropdown,filters,idea,tab) { "use strict";
 			if (data[AUTH]!==undefined) { sub += data[AUTH]; }
 			if (data[FEAT]!==undefined) { sub += " ft " + data[FEAT]; }
 			if (data[EDIT]!==undefined) { version += data[EDIT]; }
-			if (data[BEAT]!==undefined) { 
+			if (data[JOCK]!==undefined) { 
 				if (version!=="") { version += " "; }
-				version += from[lang]+" "+data[BEAT]; }
+				version += from[lang]+" "+data[JOCK]; }
 			if (data[HOME]!==undefined) {
 				if (version!=="") { version += " "; }
 				version += "("+data[HOME]+")"; }
@@ -247,7 +284,7 @@ function card(data,dropdown,filters,idea,tab) { "use strict";
 				content.appendChild(map);
 				content.appendChild(gradient);
 			} /* END: backgroundmap */
-			version = data[JOIN];
+			version = data[PLUG];
 			break; }
 	subtitle.textContent = sub;
 	/* END: Card's text content */
@@ -258,26 +295,41 @@ function card(data,dropdown,filters,idea,tab) { "use strict";
 	pen.src = "draw/ic_pen.svg";
 	pen.type = "image/svg+xml";
 	var editing = document.createElement("div");
-	editing.setAttribute("class","media-editing");
-	pen.onload = function() { over(editing, pen, tab); };
+	editing.setAttribute("class","editing");
+	pen.onload = function() { edit(editing, pen, undefined, tab); };
 	pen.setAttribute("class","icon");
+	var play, next;
+	var inserting = document.createElement("div");
+	var insert = document.createElement("embed");				   
+	if (tab!=="user") {
+		next = document.createElement("embed");
+		next.alt = "Play next icon";
+		next.src = "draw/ic_queue.svg"; }	   
 	switch(tab) {
 		case "media":
-			var play = document.createElement("embed");
+			play = document.createElement("embed");
 			play.alt = "Play icon";
 			play.src = "draw/ic_play.svg";
 			play.type = "image/svg+xml";
-			play.onload = function() {
-				var svg = play.getSVGDocument().getElementsByTagName("svg")[0];
-				svg.setAttribute("onmouseenter", "evt.target.style.fill='#0c0';");
-				svg.setAttribute("onmouseleave", "evt.target.style.fill='#000';");
-				svg.onclick = function() { mixing(data[_KEY]); }; }; // jshint ignore:line
-			menu.appendChild(play);
+			play.onload = function() { over(play).onclick = function() {
+				mixing(data[_KEY]); }; }; // jshint ignore:line
 			if (!admin && !pro) { pen.style.height = "0"; }
+			if (wired) { bill(inserting, insert, data[_KEY], tab); }
+			next.onload = function() { over(next,false).onclick = function() {
+				playlst[playlst.length] = data[_KEY]; // jshint ignore:line
+				join(); }; };
+			menu.appendChild(play);	
+			menu.appendChild(next);	
 			break;
 		case "playlist": 
 			if (!admin && data[_KEY].substring(0,data[_KEY].indexOf("-"))!==uUid) {
 				pen.style.height = "0";	}
+			if (wired) { bill(inserting, insert, data[_KEY], tab); }
+			next.onload = function() { over(next,false).onclick = function() {
+				data[SEED].forEach( function(item) {
+					playlst[playlst.length] = item; }); // jshint ignore:line
+				join(); }; };
+			menu.appendChild(next);
 			break;
 		case "user": if (uUid!==data[_KEY] && !admin) { pen.style.height = "0"; }
 			break; }
@@ -290,8 +342,10 @@ function card(data,dropdown,filters,idea,tab) { "use strict";
 	/*----*/ link.appendChild(subtitle);
 	/*----*/ link.appendChild(document.createTextNode(version));					   
 	node.appendChild(aside);
-	/**/ main.appendChild(menu);			   
-	/*--*/ menu.appendChild(pen);				   
+	/**/ main.appendChild(menu);
+	/*--*/ menu.appendChild(pen);
+	/*--*/ menu.appendChild(insert); 
+	node.appendChild(inserting);
 	node.appendChild(editing);
 	return node;
 }
@@ -301,6 +355,28 @@ function date() { "use strict";
   function pad(s) { return (s < 10) ? '0' + s : s; }
   var d = new Date();
   return [d.getFullYear(), pad(d.getMonth()+1), pad(d.getDate())].join('-');
+}
+
+// Expandable editor for pro users and admins
+function edit(div, embed, rows, tab) { "use strict";
+	var height;
+	if (rows!==undefined) {	height = String((rows*30)+10)+"px"; }
+	else switch (tab) {
+		case "media": height = "390px";
+			break;
+		case "playlist": height = "100px";
+			break;
+		case "user": height = "200px";
+			break; }
+	var clicked = false;
+	over(embed,false).onclick = function() { if (clicked) {
+			div.style.height = "0";
+			div.style.opacity = "0";
+			over(embed,false); }
+		else { div.style.height = height;
+			div.style.opacity = "1";
+			over(embed,true); }
+	clicked = !clicked; };
 }
 
 // Login errors alerts
@@ -329,11 +405,12 @@ function hide(page) { "use strict";
 	var add = document.createElement("label");
 	add.setAttribute("for","new-"+page);
 	var icon = document.createElement("img");
-	icon.src = "draw/ic_add.svg";
+	if (page==="media") { icon.src = "draw/ic_youtube_search.svg"; }
+	else { icon.src = "draw/ic_add.svg"; }
 	icon.setAttribute("class", "icon");
 	icon.alt = "Add icon";
 	add.appendChild(icon);
-	add.appendChild(document.createTextNode("Add "+page));
+	add.appendChild(document.createTextNode(plus[lang]));
 	document.getElementById("insert-"+page).appendChild(add);
 }
 
@@ -352,9 +429,16 @@ function item(type) { "use strict"; // jshint ignore:line
 			else { ytRequest(id,list); } }); // jshint ignore:line
 	} else { alert("Video must be hosted by YouTube."); }			
 }
-
-// unused yet
-// function jump() { "use strict"; }
+			
+function join() { "use strict";
+	var prepare = document.getElementById("prepare");
+	prepare.innerHTML = "";
+	playlst.forEach(function(media) { // jshint ignore:line
+	var head = arch();
+	tRef.child(media).once('value').then(function(t) {
+		tube(t, function(data) { head[2].textContent = data[CALL]; }); });
+	prepare.appendChild(head[0]); });
+}
 
 // Remove or update item
 function kill(id, container, tab, update) { "use strict";
@@ -365,7 +449,7 @@ function kill(id, container, tab, update) { "use strict";
 		case "playlist": 
 			maker = id.substring(0,id.indexOf("-"));
 			title = id.replace(maker+"-", "");
-			uRef.child(maker).child("play").child(title).remove();
+			//uRef.child(maker).child("seed").child(title).remove();
 			break;
 		case "user": /**/
 			break; }
@@ -380,7 +464,7 @@ function kill(id, container, tab, update) { "use strict";
 				break;
 			case "playlist": 
 				uRef.child(maker).once('value').then(function(snapshot) {
-					var list = snapshot.child("play").child(update);
+					var list = snapshot.child("seed").child(update);
 					var auth = snapshot.val().call;
 					data = vibe(list,maker,auth);					
 					node = card(data,dropdown2,undefined,0,tab);
@@ -418,14 +502,36 @@ function load(src) { "use strict";
 			if (src===firebaseApp) { firebaseReady = true; }
 			else if (src===firebaseAuth) { authReady = true; }
 			else if (src===firebaseData) { dataReady = true; }
-			if (firebaseReady && authReady && dataReady) { // Scripts loaded
+			else if (src===firebaseStock) { storageReady = true; }
+			if (firebaseReady && authReady && dataReady && storageReady) { // Scripts loaded
 				firebase.initializeApp(config);	// jshint ignore:line
+				/* [START animatedlogo] */
+				storageRef = firebase.storage().ref(); // jshint ignore:line
+				var file = "Miksing_Logo-Animated";
+				var video = document.getElementsByTagName('video')[0];
+				var source1 = document.createElement("source");
+				source1.type = "video/mp4";
+				var source2 = document.createElement("source");
+				source2.type = "video/webm";
+				storageRef.child("anim/"+file+".mp4")
+					.getDownloadURL().then(function(url){
+					source1.src = url; }).then(function(){
+				storageRef.child("anim/"+file+".webm")
+					.getDownloadURL().then(function(url){
+					source2.src = url;
+					video.appendChild(source1);
+					video.appendChild(source2);
+    				video.load();
+					video.play(); }); });
+				video.style.height = "auto";
+				video.style.opacity = "1";
+				/* [END animatedlogo] */
 				tRef = firebase.database().ref('tubes'); // jshint ignore:line
 				uRef = firebase.database().ref('users'); // jshint ignore:line
 				/* [START loginlistener] */
 				btSignIn.addEventListener('click', function() {
 					if (firebase.auth().currentUser) { // jshint ignore:line
-						uRef.child(uUid).child("join").set(false);
+						uRef.child(uUid).child("plug").set(false);
 						firebase.auth().signOut(); } // jshint ignore:line
     				else { var email = txCourriel.value;
 						var password = txPassword.value;
@@ -474,7 +580,7 @@ function load(src) { "use strict";
 								uRef.child(uUid).child("auth").set(sign.email);
 								uRef.child(uUid).child("date").set(date());
 								uRef.child(uUid).child("kind").set(0); } }).then(function() {
-							uRef.child(uUid).child("join").set(true); // online
+							uRef.child(uUid).child("plug").set(true); // online
 							uRef.child(uUid).once('value').then(function(snap) {
 								if (snap.hasChild("kind")) { switch (snap.val().kind) {
 									case 1: pro = true; // current user is pro
@@ -531,6 +637,7 @@ function make(data,mood,node,tab) { "use strict";
 	released.id = tab+"-date-"+key;
 	released.textContent = since[lang]+data[DATE];
 	released.name = data[DATE];
+	header.style.marginBottom = "10px";
 	header.appendChild(released); }
 	var rows = [];
 	switch(tab) {
@@ -544,14 +651,15 @@ function make(data,mood,node,tab) { "use strict";
 			rows[1] = read(data[AUTH],tab+"-auth-"+key,"Author","Artist");
 			rows[2] = read(data[FEAT],tab+"-feat-"+key,"Collabs","Featuring");
 			rows[3] = read(data[EDIT],tab+"-edit-"+key,"Version","Mix");
-			rows[4] = read(data[BEAT],tab+"-beat-"+key,"Remixer","DJ");
+			rows[4] = read(data[JOCK],tab+"-jock-"+key,"Remixer","DJ");
 			rows[5] = read(data[GEEK],tab+"-geek-"+key,"Videomix","VJ");
 			rows[6] = read(data[HOME],tab+"-home-"+key,"Label","Copyright owner");
 			break;
 		case "playlist":
-			rows[0] = read(data[CALL],tab+"-call-"+key,"Name","Title");
-			rows[1] = read(data[ICON],tab+"-mood-"+key,"Image","Thumbnail");
 			id = data[_KEY].substring(0,data[_KEY].indexOf("-"));
+			rows[0] = read(data[CALL],tab+"-call-"+key,"Name","Title");
+			if (key!=="insert") {
+			rows[1] = read(data[ICON],tab+"-mood-"+key,"Image","Thumbnail");
 			if (admin || id===uUid) { var arrow = document.createElement("img");
 				arrow.alt = "Arrow Button";
 				arrow.setAttribute("class","switch");
@@ -562,7 +670,7 @@ function make(data,mood,node,tab) { "use strict";
 					mood.value = data[ICON];
 					var icon = document.getElementById(tab+"-icon-"+data[_KEY]);
 					icon.src = "draw/" + moods[data[ICON]] + ".svg"; });
-				rows[1].appendChild(arrow); }
+				rows[1].appendChild(arrow); } }
 			break;
 		case "user":
 			rows[0] = read(data[CALL],tab+"-call-"+key,"Name","Pseudonym");
@@ -597,32 +705,57 @@ function make(data,mood,node,tab) { "use strict";
 	for (var i=0; i<rows.length; i++) { node.appendChild(rows[i]); }						   
 }
 
-// node
+function nail(name,tab) { "use strict";
+	var include = document.createElement("label");
+	include.textContent = name;	
+	var start = document.createElement("div");
+	start.setAttribute("class","selection left");
+	start.appendChild(include);
+									   
+	var space = document.createElement("div");
+	space.setAttribute("class","main");
+				
+	var checkbox = document.createElement("input");
+	checkbox.type = "checkbox";
+	checkbox.setAttribute("class","selection");
+	checkbox.checked = true;
+	checkbox.addEventListener( 'change', function() {
+    if(!this.checked) {
+		switch (pages[tab]) {
+			case "media": filters2 = [];
+				break;
+			case "playlist": filters1 = [];
+				break;
+			case "user": //
+				break; }
+		wake(pages[tab]); } });	
+	var label = document.createElement("label");
+	checkbox.setAttribute("class","selection");
+	label.textContent = name;	
+	var right = document.createElement("div");
+	right.setAttribute("class","selection right");
+	right.appendChild(checkbox);
+	right.appendChild(label);
+									   
+	var enthusiast = document.createElement("header");
+	enthusiast.setAttribute("class","controls");
+	//enthusiast.appendChild(start);
+	enthusiast.appendChild(space);
+	enthusiast.appendChild(right);
+	return enthusiast;
+}
 
-// Expandable editor for pro users and admins
-function over(div, embed, tab) { "use strict";
-	var height;
-	switch (tab) {
-		case "media": height = "390px";
-			break;
-		case "playlist": height = "100px";
-			break;
-		case "user": height = "200px";
-			break; }
-	var clicked = false;
+// Fill color of embeded svg
+function over(embed,exit) { "use strict";
+	var enter = "#0c0";
+	var leave = "#000";
+	if (exit) { 
+		enter = "#c00";
+		leave = "#00c"; }				   
 	var svg = embed.getSVGDocument().getElementsByTagName("svg")[0];
-	svg.setAttribute("onmouseenter", "evt.target.style.fill='#0c0';");
-	svg.setAttribute("onmouseleave", "evt.target.style.fill='#000';");
-	svg.onclick = function() { if (clicked) {
-			div.style.height = "0";
-			div.style.opacity = "0";
-			svg.setAttribute("onmouseenter", "evt.target.style.fill='#0c0';");
-			svg.setAttribute("onmouseleave", "evt.target.style.fill='#000';"); }
-		else { div.style.height = height;
-			div.style.opacity = "1";
-			svg.setAttribute("onmouseenter", "evt.target.style.fill='#c00';");
-			svg.setAttribute("onmouseleave", "evt.target.style.fill='#00c';"); }
-	clicked = !clicked; };
+	svg.setAttribute("onmouseenter", "evt.target.style.fill='"+enter+"';");
+	svg.setAttribute("onmouseleave", "evt.target.style.fill='"+leave+"';");
+	return svg;
 }
 
 // Spinner options
@@ -640,8 +773,6 @@ function pick(container,dropdown,id,mood,section,selected,text) { "use strict";
 	label.textContent = text;
 	dropdown.appendChild(label);
 }
-
-// quit
 
 // Editable item details
 function read(content, id, name, placeholder) { "use strict";
@@ -661,8 +792,9 @@ function read(content, id, name, placeholder) { "use strict";
 }
 
 function save(container, id, tab) { "use strict";
+	var call, key;
 	switch(tab) {
-		case "media": var key = id; // editing video's id if not inserting
+		case "media": key = id; // editing video's id if not inserting
 			if (id==="insert") { // get inserting video's id and exit form
 				var insert = document.getElementById(tab+"-save-insert");
 				key = insert.getAttribute("name");
@@ -674,9 +806,7 @@ function save(container, id, tab) { "use strict";
 			// read strings and save			 
 			var auth = document.getElementById(tab+"-auth-"+id).value;
 			if (auth.length>0) { video.child("auth").set(auth); }
-			var beat = document.getElementById(tab+"-beat-"+id).value;
-			if (beat.length>0) { video.child("beat").set(beat); }
-			var call = document.getElementById(tab+"-call-"+id).value;
+			call = document.getElementById(tab+"-call-"+id).value;
 			if (call.length>0) { video.child("call").set(call); } 
 			if (id==="insert") { // Date is fixed for good when inserted
 				var released = document.getElementById(tab+"-date-"+id);
@@ -689,7 +819,9 @@ function save(container, id, tab) { "use strict";
 			var geek = document.getElementById(tab+"-geek-"+id).value;
 			if (geek.length>0) { video.child("geek").set(geek); }
 			var home = document.getElementById(tab+"-home-"+id).value;
-			if (home.length>0) { video.child("home").set(home); } 
+			if (home.length>0) { video.child("home").set(home); }
+			var jock = document.getElementById(tab+"-jock-"+id).value;
+			if (jock.length>0) { video.child("jock").set(jock); }
 			// music's genre from the moods spinner
 			var mood = 0, spinner = "filter-"+tab+"-"+id;
 			var genres = document.getElementsByName(spinner);
@@ -702,7 +834,7 @@ function save(container, id, tab) { "use strict";
 			if (id==="insert") { var topic = topics[mood];
 				if (topic.includes("-")) { // remove descriptive chars
 					topic.substring(0,topic.indexOf("-")); }
-				var list = uRef.child(uUid).child("play").child(topic);
+				var list = uRef.child(uUid).child("seed").child(topic);
 				list.child("kind").set("YouTube"); // only 1 kind, yet
 				list.child("seed").child(key).set(true);
 				/* [END userplaylist] */
@@ -712,43 +844,36 @@ function save(container, id, tab) { "use strict";
 					make(data,data[MOOD],node.lastChild,"media"); }); });
 			} else { kill(key,container,tab,"update"); }
 			break;
-		case "playlist": var user, name, rename = "";
+		case "playlist": var user;
+			call = document.getElementById(tab+"-call-"+id).value;
 			if (id==="insert") { user = uUid;
-				name = document.getElementById(tab+"-call-"+id).value;
+				key = uRef.child(user).child("seed").push().key;
 				document.getElementById("new-"+tab).checked = false; }
 			else { user = id.substring(0,id.indexOf("-"));
-				name = id.replace(user+"-", "");
-				rename = document.getElementById(tab+"-call-"+id).value;
+				key = id.replace(user+"-", "");
 				container.style.height = "0"; // exit editing
 				container.style.opacity = "0"; }
-			var icon = document.getElementById(tab+"-mood-"+id).value;
-			// The playlist ref is the list's name within the user's data
-			var playlist = uRef.child(user).child("play").child(name);
-			if (rename.length>0 && rename!==name) { /* [START moving] */
-				var move = uRef.child(user).child("play").child(rename);
-				playlist.once('value').then(function(snapshot) {
-					if (snapshot.hasChild("date")) {
-						move.child("date").set(snapshot.val().date); }
-					if (snapshot.hasChild("feed")) { // followers
-						snapshot.child("feed").forEach(function(snap) {
-							move.child("feed").child(snap.key).set(true); }); }
-					move.child("icon").set(icon);
-					if (snapshot.hasChild("seed")) {
-						snapshot.child("seed").child("tube")
-							.forEach(function(snap) { move.child("seed")
-							.child("tube").child(snap.key).set(true); });
-						kill(id,container,tab,rename); } }); /* [END moving] */
-			} else { playlist.child("icon").set(icon);
-				if (id==="insert") { var username;
-					playlist.child("date").set(date());
-					uRef.child(uUid).once('value').then(function(snap) {
-						username = snap.val().call; }).then(function() {
-						playlist.once('value').then(function(list) {
-							var data = vibe(list,user,username);
-							var node = card(data,dropdown2,undefined,0,"playlist");
-							items2.appendChild(node);
-							make(data,0,node.lastChild,"playlist"); }); });
-			} }
+			var playlist = uRef.child(user).child("seed").child(key);
+			if (id==="insert") { var username;
+				playlist.child("call").set(call);
+				playlist.child("date").set(date());
+				uRef.child(uUid).once('value').then(function(snap) {
+					username = snap.val().call; }).then(function() {
+					playlist.once('value').then(function(list) {
+						var data = vibe(list,user,username);
+						var node = card(data,dropdown2,undefined,0,"playlist");
+						items2.appendChild(node);
+						make(data,0,node.lastChild,"playlist"); }); }); }
+			else { var name, rename = false; 
+				playlist.once('value').then(function(snap) { 
+					name = snap.val().call;
+					alert(call+" "+name);
+					if (call!==name) { rename = true;
+						playlist.child("call").set(call); }
+					var icon = "0", image = document.getElementById(tab+"-mood-"+id);
+					if (id!=="insert") { icon = image.value; }
+					playlist.child("icon").set(icon);
+					if (rename) { kill(id,container,tab,key); } }); }
 			break;
 		case "user": 
 			container.style.height = "0"; // exit editing
@@ -767,13 +892,13 @@ function save(container, id, tab) { "use strict";
 function tube(snap, callback) { "use strict";
 	var data = [snap.key];
 	data[AUTH] = snap.val().auth;
-	data[BEAT] = snap.val().beat;
 	data[CALL] = snap.val().call;
 	data[DATE] = snap.val().date || "YYYY-MM-DD";
 	data[EDIT] = snap.val().edit;
 	data[FEAT] = snap.val().feat;
 	data[HOME] = snap.val().home;
 	data[ICON] = "http://img.youtube.com/vi/"+snap.key+"/0.jpg";
+	data[JOCK] = snap.val().jock;
 	data[MOOD] = snap.val().mood || 0;
 	if (snap.hasChild("geek") && wired) { // Login required to read from uRef
 		uRef.once('value', function(users) { 
@@ -791,15 +916,13 @@ function user(snap) { "use strict";
 	data[DATE] = snap.val().date || "YYYY-MM-DD"; 
 	data[HOME] = snap.val().home;
 	data[ICON] = snap.val().icon || "0";
-	if (snap.hasChild("join")) { var online = snap.val().join;
-		if (online) { data[JOIN] = "Online"; }
-		else { data[JOIN] = "Offline"; } }
+	if (snap.hasChild("plug")) { var online = snap.val().plug;
+		if (online) { data[PLUG] = "Online"; }
+		else { data[PLUG] = "Offline"; } }
 	data[KIND] = snap.val().kind || 0;
-	data[PLAY] = [];
-	if (snap.hasChild("play")) { 
-		snap.child("play").forEach(function(play){
-			data[PLAY][data[PLAY].length] = snap.key+"-"+play.key;
-			//alert(snap.key+"-"+play.key);
+	data[SEED] = [];
+	if (snap.hasChild("seed")) { snap.child("seed").forEach(function(seed){
+			data[SEED][data[SEED].length] = snap.key+"-"+seed.key;
 		});
 	}			 
 	return data;		 
@@ -809,13 +932,12 @@ function user(snap) { "use strict";
 function vibe(snap,user,username) { "use strict";
 	var data = [user+"-"+snap.key];
 	data[AUTH] = username;
-	data[CALL] = snap.key;
+	data[CALL] = snap.val().call;
 	if (snap.hasChild("date")) {
 		data[DATE] = snap.val().date.substring(0,4); }
 	else { data[DATE] = "YYYY"; }
 	data[ICON] = snap.val().icon || 0;
-	var videos = [];
-								   
+	var videos = [];		   
 	snap.child("seed").child("tube").forEach(function(seed){
 		videos[videos.length] = seed.key; });
 	data[SEED] = videos;
@@ -848,12 +970,13 @@ function wake(tab) { "use strict";
 			uRef.once('value').then(function(users) {
 				//var population = users.numChildren(), i = 0;
 				users.forEach(function(snap) { //i++;
-					snap.child("play").forEach(function(list) { // user's playlists
+					snap.child("seed").forEach(function(list) { // user's playlists
 						var data = vibe(list,snap.key,snap.val().call);
 						if (filters1.length===0 || filters1.includes(data[_KEY])) {
 							var node = card(data,dropdown2,undefined,0,"playlist");
 							items2.appendChild(node);
 							make(data,0,node.lastChild,"playlist"); } });
+					
 					/* if... * ...no dropdown yet
 					pick(list2, dropdown2, "item", "-", "playlist", undefined, spinner2[lang]); // Spinner title
 					for (var p = 0; p<filters2.length; p++) {
@@ -880,3 +1003,22 @@ function wake(tab) { "use strict";
 			break;
 	}
 }
+
+// TODO: copy playlist
+			//if (rename.length>0 && rename!==name) { /* [START moving] */
+				//var move = uRef.child(user).child("seed").child(rename); 
+				/*var move = uRef.child(user).child("seed").child(push);
+				move.child("call").set(rename);
+				
+				playlist.once('value').then(function(snapshot) {
+					if (snapshot.hasChild("date")) {
+						move.child("date").set(snapshot.val().date); }
+					if (snapshot.hasChild("room")) { // followers
+						snapshot.child("room").forEach(function(snap) {
+							move.child("room").child(snap.key).set(true); }); }
+					move.child("icon").set(icon);
+					if (snapshot.hasChild("seed")) {
+						snapshot.child("seed").child("tube")
+							.forEach(function(snap) { move.child("seed")
+							.child("tube").child(snap.key).set(true); });
+						kill(id,container,tab,rename); } }); /* [END moving] */ /* */

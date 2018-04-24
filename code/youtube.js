@@ -9,7 +9,7 @@ var /* number */ fade_In, fadeOut, fadeVal=10, indexAt=0, playing=1, present=0, 
 var /* string */ videoId;
 var /* vArray */ iframes;
 var /* vArray */ players;
-var /* vArray */ playlst=['dIK81cpOXYg','5-q3meXJ6W4','V7t1SToZ-i8','UHElD61QBKY','WkyNf6GBI6M','c8cDM2PN_kY','JG9W2TwDtOM','_fPaBhR21Vw','YB_z0Z3msAQ','AldrdUYHFK4','h1gcPNMC0J4','scMATf60KWI'];
+var /* vArray */ playlst = [];
 
 var js = document.createElement('script');
 js.src = "https://www.youtube.com/iframe_api";
@@ -27,7 +27,6 @@ function onYouTubeIframeAPIReady() { "use strict"; // jshint ignore:line
 		'onStateChange': onPlayerStateChange } });
 	players = [player_nul,player_one,player_two];								
 	iframes = document.getElementsByTagName('iframe');
-									
 	//ytRequest("https://www.youtube.com/watch?v=GMp-_PeD50A"); //&list=PLqFMT2yxu9RTERhYtFb9si0iURrkDFP7G
 }
 
@@ -111,7 +110,9 @@ function ytRequest(id,list){ "use strict"; // jshint ignore:line
 	request.onreadystatechange = function() { var data;
 		if (this.readyState===4 && this.status===200) {
 			data = JSON.parse(request.responseText);
-			if (list) { /**/ }
+			if (list) { /*
+			
+			*/ }
 			else { document.getElementById("media-details").checked = true;
 				document.getElementById("media-save-insert").setAttribute("name", data.items[0].id);
 				var channel = "Channel: "+data.items[0].snippet.channelTitle;
